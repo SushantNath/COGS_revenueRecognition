@@ -96,7 +96,7 @@
 						<footer>
 			<OverflowToolbar>
 				<ToolbarSpacer/>
-				<Button text="{i18n>getInformation}" type="Accept" />
+				<Button text="{i18n>getInformation}" type="Accept" press="onClickGetInformation" />
 				<!--<Button text="Reject" type="Reject" />
 				<Button text="Edit" />
 				<Button text="Delete" />-->

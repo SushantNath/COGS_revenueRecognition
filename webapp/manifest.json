@@ -82,6 +82,14 @@
 					"target": [
 						"Targetinformation"
 					]
+				},
+				
+					{
+					"name": "outboundDetails",
+					"pattern": "outboundDetails",
+					"target": [
+						"outboundDetails"
+					]
 				}
 			],
 			"targets": {
@@ -89,8 +97,12 @@
 					"viewType": "XML",
 					"transition": "slide",
 					"clearControlAggregation": false,
-					"viewId": "information",
+				
 					"viewName": "information"
+				},
+				"outboundDetails": {
+					"viewType": "XML",
+					"viewName": "outboundDetails"
 				}
 			}
 		}
