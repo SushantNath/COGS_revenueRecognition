@@ -2,8 +2,109 @@
 	controllerName="com.sap.revenueRecognition.cogs_revenueRecognition.controller.outboundDetails" xmlns:html="http://www.w3.org/1999/xhtml">
 	<App>
 		<pages>
-			<Page title="Title" showNavButton="true" navButtonPress="onNavBack">
-				<content></content>
+			<Page title="{i18n>outboundInf}" showNavButton="true" navButtonPress="onNavBack" >
+				<content>
+					<Table id="idProductsTable" class = "sapUiSmallMarginTop" mode="MultiSelect"
+		inset="false"
+		items="{
+			path: '/Invoices',
+			sorter: {
+				path: 'ProductName'
+			}
+		}">
+	
+		<headerToolbar>
+			<Toolbar>
+			
+					<Title   level="H2"/>
+					<Label text="{i18n>podDate}" required="true"/>
+					<DatePicker width = "50%" 
+			id="podDateId"
+			placeholder="Enter POD Date ..."
+			change="handlePodChange"
+		/>
+				
+			
+			</Toolbar>
+		</headerToolbar>
+	
+		<columns>
+			<Column
+				>
+				<Text text="{i18n>salesOrg}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>deliveryNum}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>externDevNum}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>soldToId}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>shipToId}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>immediateInvNum}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>immediateInvReversal}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>revenueInvoice}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>podStatus}" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<ObjectIdentifier
+						title="{ProductName}"
+						text="{ProductName}"/>
+					<Text
+						text="{ShipperName}" />
+					<Text
+						text="{ShipperName}" />
+					<Text
+						text="{ShipperName}" />
+					<Text
+						text="{ShipperName}" />
+							<Text
+						text="{ShipperName}" />
+							<Text
+						text="{ShipperName}" />
+							<Text
+						text="{ShipperName}" />
+<Text
+						text="{ShipperName}" />
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
+					
+					
+				</content>
+					<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button text="{i18n>createDocs}" type="Accept" press="onClickGetInformation" />
+				<!--<Button text="Reject" type="Reject" />
+				<Button text="Edit" />
+				<Button text="Delete" />-->
+			</OverflowToolbar>
+		</footer>
+				
 			</Page>
 		</pages>
 	</App>

@@ -12,6 +12,15 @@
 		"sourceTemplate": {
 			"id": "ui5template.basicSAPUI5ApplicationProject",
 			"version": "1.40.12"
+		},
+			"dataSources": {
+			"Northwind": {
+				"uri": "/destinations/northwind/V2/Northwind/Northwind.svc/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
 		}
 	},
 	"sap.ui": {
@@ -56,6 +65,9 @@
 				"settings": {
 					"bundleName": "com.sap.revenueRecognition.cogs_revenueRecognition.i18n.i18n"
 				}
+			},
+				"": {
+				"dataSource": "Northwind"
 			}
 		},
 		"resources": {
