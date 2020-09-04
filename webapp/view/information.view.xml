@@ -1,10 +1,107 @@
-<mvc:View controllerName="com.sap.revenueRecognition.cogs_revenueRecognition.controller.information" xmlns:mvc="sap.ui.core.mvc"
-	displayBlock="true" xmlns="sap.m">
+<mvc:View controllerName="com.sap.revenueRecognition.cogs_revenueRecognition.controller.information" xmlns:mvc="sap.ui.core.mvc" 	xmlns:l="sap.ui.layout"
+	xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns="sap.m">
 	<Shell id="shell">
 		<App id="app">
 			<pages>
 				<Page id="page" title="{i18n>title}">
-					<content></content>
+					<content>
+						
+							<VBox class="sapUiSmallMargin">
+								
+								
+							<f:SimpleForm id="SimpleFormDisplay354wideDual"
+			editable="false"
+			layout="ResponsiveGridLayout"
+			title="Revenue Invoice"
+			labelSpanXL="4"
+			labelSpanL="3"
+			labelSpanM="4"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="0"
+			emptySpanL="4"
+			emptySpanM="0"
+			emptySpanS="0"
+			columnsXL="2"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+				<core:Title text="Others" />
+				<Label text="{i18n>sapOutbound}" />
+				<Input
+			id="deliveryInput"
+			placeholder="Enter Delivery"
+			showSuggestion="true"
+			showValueHelp="false">
+		</Input>
+				<Label text="{i18n>goodsIssuedate}" />
+				<DatePicker
+			id="DP1"
+			placeholder="Enter goods issuedDate ..."
+			change="handleChange"
+			class="sapUiSmallMarginBottom"/>
+				<Label text="{i18n>shipToCustomer}" />
+				<Input
+			id="shipToInput"
+			placeholder="Enter ship to customer "
+			showSuggestion="true"
+			showValueHelp="false">
+		</Input>
+				<Label text="{i18n>soldToCustomer}" />
+				<Input
+			id="soldToInput"
+			placeholder="Enter sold to customer "
+			showSuggestion="true"
+			showValueHelp="false">
+		</Input>
+				<Label text="{i18n>externalDelivery}" />
+				<Input
+			id="externalDelivery"
+			placeholder="Enter external delivery "
+			showSuggestion="true"
+			showValueHelp="false">
+		</Input>
+				<core:Title text="Invoice Type" />
+				<Label text="{i18n>immInvoicetype}"  required="true"/>
+					<Input
+			id="immInvoiceTypeId"
+			placeholder="Enter immediate invoice type "
+			showSuggestion="true"
+			showValueHelp="false">
+		</Input>
+				<Label text="{i18n>revenueInvoiceType}" required="true"/>
+			<Input
+			id="revnvoiceTypeId"
+			placeholder="Enter revenue invoice type "
+			showSuggestion="true"
+			showValueHelp="false">
+		</Input>
+		
+			<Label text="{i18n>revenueInvoiceDate}" required="true"/>
+			<Input
+			id="revnvoiceDateId"
+			placeholder="Enter revenue invoice Date "
+			showSuggestion="true"
+			showValueHelp="false">
+		</Input>
+			</f:content>
+		</f:SimpleForm>
+		
+	</VBox>
+	
+	
+					</content>
+					
+						<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button text="{i18n>getInformation}" type="Accept" />
+				<!--<Button text="Reject" type="Reject" />
+				<Button text="Edit" />
+				<Button text="Delete" />-->
+			</OverflowToolbar>
+		</footer>
 				</Page>
 			</pages>
 		</App>
