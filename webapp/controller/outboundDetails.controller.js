@@ -19,7 +19,45 @@ sap.ui.define([
 
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			oRouter.navTo("Routeinformation", true);
-		}
+		},
+		/* code to check validation and navigate to Outbound details screen */
+		onClickGetInformation: function () {
+			
+			 var requiredInputs = this.returnIdListOfRequiredFields();
+            var passedValidation = this.validateEventFeedbackForm(requiredInputs);
+            if(passedValidation === false)
+            {
+                //show an error message, rest of code will not execute.
+                return false;
+            }
+
+		},
+		 returnIdListOfRequiredFields: function()
+        {
+           var requiredInputs = [];
+            $('[data-required="true"]').each(function(){
+                requiredInputs.push($(this).context.id);
+            });
+            return requiredInputs;
+        },
+        validateEventFeedbackForm: function(requiredInputs) {
+        	var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+                var _self = this;
+                var valid = true;
+                requiredInputs.forEach(function (input) {
+                    var sInput = _self.getView().byId("podDateId");
+                    if (sInput.getValue() == "" || sInput.getValue() == undefined) {
+                        valid = false;
+                        sInput.setValueState("Error");
+                    }
+                    else {
+                     //   oRouter.navTo("outboundDetails");
+                     sInput.setValueState("Success");
+                     console.log("Inside else part of validation");
+                    }
+                });
+                return valid;
+        }
 
 		/**
 		 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

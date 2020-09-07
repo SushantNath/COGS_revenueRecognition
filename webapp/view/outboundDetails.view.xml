@@ -22,8 +22,11 @@
 			id="podDateId"
 			placeholder="Enter POD Date ..."
 			change="handlePodChange"
-		/>
-				
+		>
+			<customData>
+                                    <core:CustomData key="required" value="true" writeToDom="true" />
+                                </customData>
+				</DatePicker>
 			
 			</Toolbar>
 		</headerToolbar>

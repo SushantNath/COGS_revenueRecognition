@@ -1,11 +1,12 @@
 <mvc:View controllerName="com.sap.revenueRecognition.cogs_revenueRecognition.controller.information" xmlns:mvc="sap.ui.core.mvc"
-	xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns="sap.m">
-	<Shell id="shell">
+	xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar"
+		>
+		<Shell id="shell">
 		<App id="app">
 			<pages>
-				<Page id="page" title="{i18n>title}" showHeader="false">
+				<Page id="page" title="{i18n>title}" showHeader="true">
 					<content>
-						<VBox class="sapUiSmallMargin">
+					<!--	<VBox class="sapUiSmallMargin">
 							<f:SimpleForm id="OthersSimpleFormId" editable="false" layout="ResponsiveGridLayout" title="Revenue Invoice" labelSpanXL="4" labelSpanL="3"
 								labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4" emptySpanM="0" emptySpanS="0" columnsXL="2"
 								columnsL="1" columnsM="1" singleContainerFullSize="false">
@@ -43,19 +44,194 @@
                                 </DatePicker>
 								</f:content>
 							</f:SimpleForm>
-							</VBox>
+							</VBox>-->
+							
+							<Panel backgroundDesign="Transparent"  expandable="true" expanded="true"
+				headerText="{i18n>filterOptions}" width="auto">
+				<content>
+					<fb:FilterBar class="filterLabels" id="filterbar" reset="onReset" search="onFilter" useToolbar="false" clear="onClearFilter"
+						showClearButton="true" showClearOnFB="true" showGoOnFB="true">
+						<fb:filterItems>
+							<!--  Filter Items-->
+							<fb:FilterItem label="{i18n>sapOutbound}" name="outboundFilter">
+								<fb:control>
+									<Input id="deliveryInputFilter" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="false">
+									</Input>
+								</fb:control>
+							</fb:FilterItem>
+							<!-- Goods issue date Filter -->
+							<fb:FilterItem label="{i18n>goodsIssuedate}" name="goodsIssueFilter">
+								<fb:control>
+									<DatePicker id="goodsIssueId" placeholder="Enter goods issuedDate ..." change="handleChange" />
+								</fb:control>
+							</fb:FilterItem>
+							<!--Ship to customer Filter-->
+							<fb:FilterItem name="shipToCustomerFilter" label="{i18n>shipToCustomer}">
+								<fb:control>
+										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="false"></Input>
+								</fb:control>
+							</fb:FilterItem>
+							<!--Sold to Customer-->
+							<fb:FilterItem name="soldToCustomerFilter" label="{i18n>soldToCustomer}">
+							<fb:control>
+									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="false"></Input>
+								</fb:control>
+							</fb:FilterItem>
+							
+								<!--External delivery Filter-->
+							
+							<fb:FilterItem name="externaldeliveryFilter" label="{i18n>externalDelivery}">
+								<fb:control>
+									<Input id="externalDeliveryId" placeholder="Enter external delivery " showSuggestion="true" showValueHelp="false"></Input>
+								</fb:control>
+							</fb:FilterItem>
+							
+							<!-- Immediate Invoice type Filter-->
+								
+									<fb:FilterItem name="ImminvoiceTypeFilter" label="{i18n>immInvoicetype}"  >
+								<fb:control>
+									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" showValueHelp="false">
+										<customData>
+                                    <core:CustomData key="required" value="true" writeToDom="true" />
+                                </customData>
+									</Input>
+									</fb:control>
+							</fb:FilterItem>
+							
+							
+								<!-- revenue Invoice type Filter-->
+								
+									<fb:FilterItem name="invoiceTypeFilter" label="{i18n>invoiceType}">
+								<fb:control>
+									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" showValueHelp="false">
+										<customData>
+                                    <core:CustomData key="required" value="true" writeToDom="true" />
+                                </customData>
+									</Input>
+									</fb:control>
+							</fb:FilterItem>
+							
+							<!--Revenue invoice Date-->	
+							
+							<fb:FilterItem name="revenueInvoiceDateFilter" label="{i18n>revenueInvoiceDate}">
+							<fb:control>
+									<DatePicker id="invoiceDateInpuIdt"  placeholder="Enter revenue invoice date ..." change="handleChange" class="sapUiSmallMarginBottom">
+								<customData>
+                                    <core:CustomData key="required" value="true" writeToDom="true" />
+                                </customData>
+                                </DatePicker>
+								</fb:control>
+							</fb:FilterItem>	
+							
+						</fb:filterItems>
+						
+	
+					</fb:FilterBar>
+				</content>
+			</Panel>	
+				<Table id="idProductsTable" class = "sapUiSmallMarginTop" mode="MultiSelect"
+		inset="false"
+		items="{
+			path: '/Invoices',
+			sorter: {
+				path: 'ProductName'
+			}
+		}">
+	
+		<headerToolbar>
+			<Toolbar>
+			
+					<Title   level="H2"/>
+					<Label text="{i18n>podDate}" required="true"/>
+					<DatePicker width = "50%" 
+			id="podDateId"
+			placeholder="Enter POD Date ..."
+			change="handlePodChange"
+		>
+			<customData>
+                                    <core:CustomData key="required" value="true" writeToDom="true" />
+                                </customData>
+				</DatePicker>
+			
+			</Toolbar>
+		</headerToolbar>
+	
+		<columns>
+			<Column
+				>
+				<Text text="{i18n>salesOrg}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>deliveryNum}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>externDevNum}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>soldToId}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>shipToId}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>immediateInvNum}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>immediateInvReversal}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>revenueInvoice}" />
+			</Column>
+			<Column
+				>
+				<Text text="{i18n>podStatus}" />
+			</Column>
+		</columns>
+		<items>
+			<ColumnListItem>
+				<cells>
+					<ObjectIdentifier
+						title="{ProductName}"
+						text="{ProductName}"/>
+					<Text
+						text="{ShipperName}" />
+					<Text
+						text="{ShipperName}" />
+					<Text
+						text="{ShipperName}" />
+					<Text
+						text="{ShipperName}" />
+							<Text
+						text="{ShipperName}" />
+							<Text
+						text="{ShipperName}" />
+							<Text
+						text="{ShipperName}" />
+<Text
+						text="{ShipperName}" />
+				</cells>
+			</ColumnListItem>
+		</items>
+	</Table>
 					</content>
 					<footer>
 						<OverflowToolbar>
 							<ToolbarSpacer/>
 							<Button text="{i18n>getInformation}" type="Accept" press="onClickGetInformation"/>
-							<!--<Button text="Reject" type="Reject" />
-				<Button text="Edit" />
-				<Button text="Delete" />-->
+						
 						</OverflowToolbar>
 					</footer>
 				</Page>
 			</pages>
 		</App>
 	</Shell>
+	
+	
 </mvc:View>
