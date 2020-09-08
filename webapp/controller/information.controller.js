@@ -7,8 +7,26 @@ sap.ui.define([
 		onInit: function () {
 
 		},
-/* code to check validation and navigate to Outbound details screen */
-		onClickGetInformation: function () {
+		
+/* code to check validation for Extract documents */
+
+	onClickGetDocs: function () {
+			 var valid = true;
+			var podDateValue = this.getView().byId("podDateId");
+			if (podDateValue.getValue() == "" || podDateValue.getValue() == undefined) {
+                        valid = false;
+                        podDateValue.setValueState("Error");
+                    }
+                    else {
+                       podDateValue.setValueState("Success");
+                    }
+			
+
+		},
+		
+		
+/* code to check validation for filters */
+		onApplyFilter: function () {
 			
 			 var requiredInputs = this.returnIdListOfRequiredFields();
             var passedValidation = this.validateEventFeedbackForm(requiredInputs);
@@ -38,7 +56,8 @@ sap.ui.define([
                         sInput.setValueState("Error");
                     }
                     else {
-                        oRouter.navTo("outboundDetails");
+                       sInput.setValueState("Success");
+                       	_self.getView().byId("dynamicPageId").setShowFooter(true);
                     }
                 });
                 return valid;
