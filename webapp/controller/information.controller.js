@@ -1,6 +1,7 @@
 sap.ui.define([
-	"sap/ui/core/mvc/Controller"
-], function (Controller) {
+	"sap/ui/core/mvc/Controller",
+	'sap/m/MessageToast'
+], function (Controller,MessageToast) {
 	"use strict";
 
 	return Controller.extend("com.sap.revenueRecognition.cogs_revenueRecognition.controller.information", {
@@ -13,6 +14,8 @@ sap.ui.define([
 	onClickGetDocs: function () {
 			 var valid = true;
 			var podDateValue = this.getView().byId("podDateId");
+			var docTableLength = this.getView().byId("idProductsTable").getSelectedItems();
+			var msg = "Please select atleast one document";
 			if (podDateValue.getValue() == "" || podDateValue.getValue() == undefined) {
                         valid = false;
                         podDateValue.setValueState("Error");
@@ -20,7 +23,13 @@ sap.ui.define([
                     else {
                        podDateValue.setValueState("Success");
                     }
-			
+				if (docTableLength.length > 0) {
+                        
+                    }
+                    else {
+                    	
+                      	MessageToast.show(msg);
+                    }
 
 		},
 		
@@ -57,7 +66,7 @@ sap.ui.define([
                     }
                     else {
                        sInput.setValueState("Success");
-                       	_self.getView().byId("dynamicPageId").setShowFooter(true);
+                      // 	_self.getView().byId("dynamicPageId").setShowFooter(true);
                     }
                 });
                 return valid;

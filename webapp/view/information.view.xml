@@ -1,5 +1,6 @@
 <mvc:View controllerName="com.sap.revenueRecognition.cogs_revenueRecognition.controller.information" xmlns:mvc="sap.ui.core.mvc"
-xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" 	xmlns:vm="sap.ui.comp.variants"
+xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" 	xmlns:vm="sap.ui.comp.variants"  xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartVariants="sap.ui.comp.smartvariants" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:footerbar="sap.ushell.ui.footerbar"
 		>
 	<f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}">
 			<!-- DynamicPage Title -->
@@ -9,7 +10,12 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 						<vm:VariantManagement standardItemText="Filter options">
 						</vm:VariantManagement>
 					</f:heading>
-				
+					<f:actions>
+						<ToolbarSpacer/>
+						<Button
+								text="Extract Documents"
+								type="Accept" press="onClickGetDocs"/>
+					</f:actions>
 				</f:DynamicPageTitle>
 			</f:title>
 			<!-- DynamicPage Header -->
@@ -95,6 +101,9 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 						
 	
 					</fb:FilterBar>
+					
+					<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement"  search="handleGOBtnPress" useToolbar="false">
+						</smartFilterBar:SmartFilterBar>
 				</f:content>
 				
 				
@@ -196,13 +205,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 			</f:content>
 
 			<!-- DynamicPage Footer -->
-			<f:footer enabled="true">
-					<OverflowToolbar>
-							<ToolbarSpacer/>
-							<Button text="{i18n>extractDocuments}" type="Accept" press="onClickGetDocs"/>
-						
-						</OverflowToolbar>
-			</f:footer>
+		
 		</f:DynamicPage>
 	
 	
