@@ -7,7 +7,23 @@ sap.ui.define([
 	return Controller.extend("com.sap.revenueRecognition.cogs_revenueRecognition.controller.information", {
 		onInit: function () {
 
+/* COde to rename the "GO" button of filter bar */
+var oFilter = this.getView().byId("filterbar"),
+				that = this;
+				
+			oFilter.addEventDelegate({
+				"onAfterRendering": function(oEvent) {
+					var oResourceBundle = that.getOwnerComponent().getModel("i18n").getResourceBundle();
+
+
+					var oButton = oEvent.srcControl._oSearchButton;
+					oButton.setText(oResourceBundle.getText("Extract Documents"));
+				}
+			});
+
 		},
+	
+	
 		
 /* code to check validation for Extract documents */
 
@@ -30,8 +46,24 @@ sap.ui.define([
                     	
                       	MessageToast.show(msg);
                     }
+                    
+                    
+                    	var oFilter = this.getView().byId("filterbar"),
+				that = this;
+				
+			oFilter.addEventDelegate({
+				"onAfterRendering": function(oEvent) {
+					var oResourceBundle = that.getOwnerComponent().getModel("i18n").getResourceBundle();
+
+
+					var oButton = oEvent.srcControl._oSearchButton;
+					oButton.setText(oResourceBundle.getText("goButton"));
+				}
+			});
 
 		},
+		
+	
 		
 		
 /* code to check validation for filters */

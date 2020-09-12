@@ -12,9 +12,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 					</f:heading>
 					<f:actions>
 						<ToolbarSpacer/>
-						<Button
-								text="Extract Documents"
-								type="Accept" press="onClickGetDocs"/>
+						
 					</f:actions>
 				</f:DynamicPageTitle>
 			</f:title>
@@ -29,26 +27,32 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<!--  Filter Items-->
 							<fb:FilterItem label="{i18n>sapOutbound}" name="outboundFilter">
 								<fb:control>
-									<Input id="deliveryInputFilter" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="false">
-									</Input>
+									<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
+									<!--<Input id="deliveryInputFilter" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="false">
+									</Input>-->
 								</fb:control>
 							</fb:FilterItem>
 							<!-- Goods issue date Filter -->
 							<fb:FilterItem label="{i18n>goodsIssuedate}" name="goodsIssueFilter">
 								<fb:control>
-									<DatePicker id="goodsIssueId" placeholder="Enter goods issuedDate ..." change="handleChange" />
+									<!--<DatePicker id="goodsIssueId" placeholder="Enter goods issuedDate ..." change="handleChange" />-->
+										<DateRangeSelection
+			id="DRS2"
+			change="handleChange"/>
 								</fb:control>
 							</fb:FilterItem>
 							<!--Ship to customer Filter-->
 							<fb:FilterItem name="shipToCustomerFilter" label="{i18n>shipToCustomer}">
 								<fb:control>
-										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="false"></Input>
+										<!--<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="false"></Input>-->
+								<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
 								</fb:control>
 							</fb:FilterItem>
 							<!--Sold to Customer-->
 							<fb:FilterItem name="soldToCustomerFilter" label="{i18n>soldToCustomer}">
 							<fb:control>
-									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="false"></Input>
+									<!--<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="false"></Input>-->
+							<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
 								</fb:control>
 							</fb:FilterItem>
 							
@@ -56,7 +60,8 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							
 							<fb:FilterItem name="externaldeliveryFilter" label="{i18n>externalDelivery}">
 								<fb:control>
-									<Input id="externalDeliveryId" placeholder="Enter external delivery " showSuggestion="true" showValueHelp="false"></Input>
+									<!--<Input id="externalDeliveryId" placeholder="Enter external delivery " showSuggestion="true" showValueHelp="false"></Input>-->
+									<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
 								</fb:control>
 							</fb:FilterItem>
 							
@@ -102,8 +107,8 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 	
 					</fb:FilterBar>
 					
-					<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement"  search="handleGOBtnPress" useToolbar="false">
-						</smartFilterBar:SmartFilterBar>
+				<!--	<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement" id="smartFilterBar" search="handleGOBtnPress" useToolbar="false">
+						</smartFilterBar:SmartFilterBar>-->
 				</f:content>
 				
 				
@@ -134,7 +139,9 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 			change="handlePodChange"
 		>
 				</DatePicker>
-			
+			<Button
+								text="{i18n>extractDocuments}"
+								type="Accept" press="onClickGetDocs"/>
 			</Toolbar>
 		</headerToolbar>
 	
