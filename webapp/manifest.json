@@ -20,6 +20,14 @@
 				"settings": {
 					"odataVersion": "2.0"
 				}
+			},
+			
+				"Revenue": {
+				"uri": "/sap/opu/odata/sap/ZOTC_DELIVERY_COGS_REVNU_REC_SRV",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
 			}
 		}
 	},
@@ -67,8 +75,9 @@
 				}
 			},
 			"": {
-				"dataSource": "Northwind"
+				"dataSource": "Revenue"
 			}
+				
 		},
 		"resources": {
 			"css": [

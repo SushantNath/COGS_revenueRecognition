@@ -23,7 +23,14 @@ var oFilter = this.getView().byId("filterbar"),
 
 		},
 	
+	onAfterRendering: function () {
+		
 	
+var currentDate = new Date();
+var oToDate = this.getView().byId("invoiceDateInpuIdt");
+oToDate.setDateValue(currentDate);
+
+	},
 		
 /* code to check validation for Extract documents */
 

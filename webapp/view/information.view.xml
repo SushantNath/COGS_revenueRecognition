@@ -69,7 +69,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="ImminvoiceTypeFilter" label="{i18n>immInvoicetype}"  >
 								<fb:control>
-									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" showValueHelp="false">
+									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" value="{/Delivery/Imminvoicetype}" showValueHelp="false">
 										<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -82,7 +82,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="invoiceTypeFilter" label="{i18n>invoiceType}">
 								<fb:control>
-									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" showValueHelp="false">
+									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="{/Delivery/Revenueinvoice}" showValueHelp="false">
 										<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -94,7 +94,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							
 							<fb:FilterItem name="revenueInvoiceDateFilter" label="{i18n>revenueInvoiceDate}">
 							<fb:control>
-									<DatePicker id="invoiceDateInpuIdt"  placeholder="Enter revenue invoice date ..." change="handleChange" class="sapUiSmallMarginBottom">
+									<DatePicker id="invoiceDateInpuIdt"  placeholder="Enter revenue invoice date ..." change="handleChange" class="sapUiSmallMarginBottom" value="{/Delivery/Revinvdate}" >
 								<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -120,12 +120,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 			<Table id="idProductsTable"  mode="MultiSelect" growing="true"
 					growingThreshold="5"
 		inset="false"
-		items="{
-			path: '/Invoices',
-			sorter: {
-				path: 'ProductName'
-			}
-		}">
+		>
 	
 		<headerToolbar>
 			<Toolbar>
@@ -187,7 +182,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 			<ColumnListItem>
 				<cells>
 					<ObjectIdentifier
-						title="{ProductName}"
+						title="{}"
 						text="{ProductName}"/>
 					<Text
 						text="{ShipperName}" />

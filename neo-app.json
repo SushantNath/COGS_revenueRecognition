@@ -48,6 +48,15 @@
         "name": "northwind"
       },
       "description": "Northwind OData Service"
+    },
+      {
+      "path": "DE4",
+      "target": {
+        "type": "destination",
+        "name": "DE4",
+        "entryPath": "DE4"
+      },
+      "description": "DE4"
     }
   ],
   "sendWelcomeFileRedirect": true
