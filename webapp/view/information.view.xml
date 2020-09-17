@@ -27,9 +27,9 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<!--  Filter Items-->
 							<fb:FilterItem label="{i18n>sapOutbound}" name="outboundFilter">
 								<fb:control>
-									<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
-									<!--<Input id="deliveryInputFilter" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="false">
-									</Input>-->
+
+									<Input id="deliveryInputFilter" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="true" valueHelpRequest=".onValueHelpRequested">
+									</Input>
 								</fb:control>
 							</fb:FilterItem>
 							<!-- Goods issue date Filter -->
@@ -44,15 +44,15 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<!--Ship to customer Filter-->
 							<fb:FilterItem name="shipToCustomerFilter" label="{i18n>shipToCustomer}">
 								<fb:control>
-										<!--<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="false"></Input>-->
-								<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
+										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="true"></Input>
+								<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
 							<!--Sold to Customer-->
 							<fb:FilterItem name="soldToCustomerFilter" label="{i18n>soldToCustomer}">
 							<fb:control>
-									<!--<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="false"></Input>-->
-							<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
+									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="true" ></Input>
+							<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
 							
@@ -60,8 +60,8 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							
 							<fb:FilterItem name="externaldeliveryFilter" label="{i18n>externalDelivery}">
 								<fb:control>
-									<!--<Input id="externalDeliveryId" placeholder="Enter external delivery " showSuggestion="true" showValueHelp="false"></Input>-->
-									<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />
+									<Input id="externalDeliveryId" placeholder="Enter external delivery"  showSuggestion="true" showValueHelp="true" ></Input>
+									<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
 							
@@ -69,7 +69,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="ImminvoiceTypeFilter" label="{i18n>immInvoicetype}"  >
 								<fb:control>
-									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" value="{/Delivery/Imminvoicetype}" showValueHelp="false">
+									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" value="ZF30" showValueHelp="true" valueHelpRequest="handleValueHelpImmInv">
 										<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -82,7 +82,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="invoiceTypeFilter" label="{i18n>invoiceType}">
 								<fb:control>
-									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="{/Delivery/Revenueinvoice}" showValueHelp="false">
+									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="ZF20" showValueHelp="true">
 										<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -107,8 +107,8 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 	
 					</fb:FilterBar>
 					
-				<!--	<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement" id="smartFilterBar" search="handleGOBtnPress" useToolbar="false">
-						</smartFilterBar:SmartFilterBar>-->
+					<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement" id="smartFilterBar" search="handleGOBtnPress" useToolbar="false" entitySet="invoiceData>/allFilterOptionsSet">
+						</smartFilterBar:SmartFilterBar>
 				</f:content>
 				
 				

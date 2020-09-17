@@ -1,0 +1,14 @@
+{
+	"cols": [
+		{
+			"label": "Warehouse#",
+			"template": "ProductID",
+			"width": "5rem"
+		},
+		{
+			"label": "Manuf. Order",
+			"template": "ProductName"
+		}
+		
+	]
+}
