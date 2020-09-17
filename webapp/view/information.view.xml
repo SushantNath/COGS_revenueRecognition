@@ -82,7 +82,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="invoiceTypeFilter" label="{i18n>invoiceType}">
 								<fb:control>
-									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="ZF20" showValueHelp="true">
+									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="ZF20" showValueHelp="true" valueHelpRequest="handleValueHelpRevInv">
 										<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -107,8 +107,8 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 	
 					</fb:FilterBar>
 					
-					<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement" id="smartFilterBar" search="handleGOBtnPress" useToolbar="false" entitySet="invoiceData>/allFilterOptionsSet">
-						</smartFilterBar:SmartFilterBar>
+				<!--	<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement" id="smartFilterBar" search="handleGOBtnPress" useToolbar="false" entitySet="invoiceData>/allFilterOptionsSet">
+						</smartFilterBar:SmartFilterBar>-->
 				</f:content>
 				
 				
