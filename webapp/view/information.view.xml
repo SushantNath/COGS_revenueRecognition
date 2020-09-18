@@ -118,7 +118,8 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 			<!-- DynamicPage Content -->
 			<f:content>
 			<Table id="idProductsTable"  mode="MultiSelect" growing="true"
-					growingThreshold="5"
+					growingThreshold="5" items="{
+			path : 'shipToModel1>/ShipToPartySet1'}"
 		inset="false"
 		>
 	
@@ -183,23 +184,23 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 				<cells>
 					<ObjectIdentifier
 						title="{}"
-						text="{ProductName}"/>
+						text="{shipToModel1>Salesorg}"/>
 					<Text
-						text="{ShipperName}" />
+						text="{shipToModel1>DeliveryNo}" />
 					<Text
-						text="{ShipperName}" />
+						text="{shipToModel1>Externaldelno}" />
 					<Text
-						text="{ShipperName}" />
+						text="{shipToModel1>Soldtoparty}" />
 					<Text
-						text="{ShipperName}" />
+						text="{shipToModel1>Shiptoparty}" />
 							<Text
-						text="{ShipperName}" />
+						text="{shipToModel1>Imminvoiceno}" />
 							<Text
-						text="{ShipperName}" />
+						text="{shipToModel1>Imminvreversalno}" />
 							<Text
-						text="{ShipperName}" />
+						text="{shipToModel1>Revenueinvoice}" />
 <Text
-						text="{ShipperName}" />
+						text="{shipToModel1>Poddelstat}" />
 				</cells>
 			</ColumnListItem>
 		</items>

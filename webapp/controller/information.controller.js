@@ -749,7 +749,15 @@ sap.ui.define([
 			
 				success: function (oData, Response) {
 				
-				console.log("Inside extract button success");
+					// var docTableModel = new sap.ui.model.json.JSONModel(oData);
+					// that.getView().setModel(docTableModel, "docTableData");
+					// docTableModel.setProperty("/docTableSet", oData.results);
+					
+						var shipToModel1 = new sap.ui.model.json.JSONModel();
+					that.getView().setModel(shipToModel1, "shipToModel1");
+					that.getView().getModel("shipToModel1").setProperty("/ShipToPartySet1", oData.results);
+				
+				console.log("Inside extract button success",oData.results);
 				},
 				error: function (oData, Response, oError) {
 				console.log("Inside extract butoon error");
