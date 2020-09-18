@@ -12,7 +12,7 @@
 			path : 'shipToModel>/ShipToPartySet'}">
 		<ColumnListItem>
 			<cells>
-				<ObjectIdentifier id="immInvoiceObjectId"
+				<ObjectIdentifier 
 				title="{shipToModel>Fkart}" 
 				 />
 					<Text text="{shipToModel>Vtext}" />	

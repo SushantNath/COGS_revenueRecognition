@@ -83,15 +83,19 @@ sap.ui.define([
 
 				success: function (oData, Response) {
 
-					var revInvModel = new sap.ui.model.json.JSONModel();
-					oView.setModel(revInvModel, "revInvoiceModel");
-					oView.getModel("revInvoiceModel").setProperty("/revInvoiceSet", oData.results);
+					// var revInvModel = new sap.ui.model.json.JSONModel();
+					// oView.setModel(revInvModel, "revInvoiceModel");
+					// oView.getModel("revInvoiceModel").setProperty("/revInvoiceSet", oData.results);
 
 					// var immInvoiceModel = new sap.ui.model.json.JSONModel(oData);
 					// 	that.getView().setModel(immInvoiceModel, "immInvoiceData");
 					// 	immInvoiceModel.setProperty("/immInvoiceSet", oData.results);
+					
+						var orderModel = new sap.ui.model.json.JSONModel();
+					oView.setModel(orderModel, "shipToModel");
+					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
 
-					console.log("Inside Success function", oData.results);
+					console.log("Inside Success function revenue invoice", oData.results);
 				},
 
 				error: function (oData, Response, oError) {
@@ -105,9 +109,10 @@ sap.ui.define([
 		},
 
 
+
 		/* Logic for outbound delivery value help */
 
-		onValueHelpRequested: function () {
+/*		onValueHelpRequested: function () {
 			var aCols = this.oColModel.getData().cols;
 			this._oBasicSearchField = new SearchField({
 				showSearchButton: false
@@ -149,10 +154,10 @@ sap.ui.define([
 					});
 				}
 
-				//	this._oValueHelpDialog.update();
+			
 			}.bind(this));
 
-			//	this._oValueHelpDialog.setTokens(this._oMultiInput.getTokens());
+		
 			var oToken = new Token();
 			oToken.setKey(this._oManuOrdInput.getSelectedKey());
 			oToken.setText(this._oManuOrdInput.getValue());
@@ -163,7 +168,9 @@ sap.ui.define([
 
 		onValueHelpCancelPress: function () {
 			this._oValueHelpDialog.close();
-		},
+		},  */
+		
+		
 		// Code to handle value help for immediate invoice
 		handleValueHelpImmInv: function (oEvent) {
 
@@ -273,6 +280,374 @@ sap.ui.define([
 			}
 
 			oMultiInputRevInv.setValue(selectedRevInvoice);
+		},
+
+
+	/* Logic to fetch filter options for Ship To */
+	
+		handleValueShipTo: function (oEvent) {
+
+			this.loadShipTo();
+			var oView = this.getView();
+			var that = this;
+			
+			// create value help dialog
+			if (!this._valueHelpDialogShipTo) {
+				this._valueHelpDialogShipTo = sap.ui.xmlfragment(
+					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.shipTo",
+					this
+				);
+			
+				this.getView().addDependent(this._valueHelpDialogShipTo);
+			}
+		
+			// open value help dialog filtered by the input value
+			this._valueHelpDialogShipTo.open();
+			
+
+		},
+
+		loadShipTo: function () {
+			var oModel = this.getView().getModel("revenueModel");
+			var that = this;
+			var oView = this.getView();
+
+			oModel.read("/DebiaSet", {
+
+				success: function (oData, Response) {
+
+					// var revInvModel = new sap.ui.model.json.JSONModel();
+					// oView.setModel(revInvModel, "revInvoiceModel");
+					// oView.getModel("revInvoiceModel").setProperty("/revInvoiceSet", oData.results);
+
+					// var immInvoiceModel = new sap.ui.model.json.JSONModel(oData);
+					// 	that.getView().setModel(immInvoiceModel, "immInvoiceData");
+					// 	immInvoiceModel.setProperty("/immInvoiceSet", oData.results);
+					
+						var shipToModel = new sap.ui.model.json.JSONModel();
+					oView.setModel(shipToModel, "shipToModel");
+					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
+
+					console.log("Inside Success function revenue invoice", oData.results);
+				},
+
+				error: function (oData, Response, oError) {
+					console.log("Inside Error function");
+				}
+
+			});
+
+			console.log("Inside Filter options");
+
+		},
+
+	//Code to hadle serach inside revenue invoice value help
+		handleSearchShipTo: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+
+			var filter1 = new Filter("Land1", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter2 = new sap.ui.model.Filter("Mcod1", sap.ui.model.FilterOperator.Contains, sValue);
+
+			var oFilter = new Filter([filter1, filter2]);
+			var oBinding = oEvent.getSource().getBinding("items");
+			oBinding.filter(oFilter, sap.ui.model.FilterType.Application);
+		},
+		
+		// Code to handle selection for immediate invoice value help
+		
+		handleCloseShipTo: function (oEvent) {
+
+			var selectedShipTo;
+
+			var oMultiInputShipTo = this.byId("shipToCustomerId");
+			var aContexts = oEvent.getParameter("selectedContexts");
+			if (aContexts && aContexts.length) {
+				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
+				aContexts.forEach(function (oItem) {
+
+					selectedShipTo = oItem.oModel.getProperty(oItem.sPath).Kunnr;
+
+				});
+
+			}
+
+			oMultiInputShipTo.setValue(selectedShipTo);
+		},
+
+
+
+	/* Logic to fetch filter options for Sold To */
+	
+		handleValueSoldTo: function (oEvent) {
+
+			this.loadSoldTo();
+		
+			
+			// create value help dialog
+			if (!this._valueHelpDialogSoldTo) {
+				this._valueHelpDialogSoldTo = sap.ui.xmlfragment(
+					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.soldTo",
+					this
+				);
+			
+				this.getView().addDependent(this._valueHelpDialogSoldTo);
+			}
+		
+			// open value help dialog filtered by the input value
+			this._valueHelpDialogSoldTo.open();
+			
+
+		},
+
+		loadSoldTo: function () {
+			var oModel = this.getView().getModel("revenueModel");
+			var that = this;
+			var oView = this.getView();
+
+			oModel.read("/DebiaSet", {
+
+				success: function (oData, Response) {
+
+					// var revInvModel = new sap.ui.model.json.JSONModel();
+					// oView.setModel(revInvModel, "revInvoiceModel");
+					// oView.getModel("revInvoiceModel").setProperty("/revInvoiceSet", oData.results);
+
+					// var immInvoiceModel = new sap.ui.model.json.JSONModel(oData);
+					// 	that.getView().setModel(immInvoiceModel, "immInvoiceData");
+					// 	immInvoiceModel.setProperty("/immInvoiceSet", oData.results);
+					
+						var shipToModel = new sap.ui.model.json.JSONModel();
+					oView.setModel(shipToModel, "shipToModel");
+					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
+
+					console.log("Inside Success function Sold to", oData.results);
+				},
+
+				error: function (oData, Response, oError) {
+					console.log("Inside Error function  Sold to");
+				}
+
+			});
+
+			console.log("Inside Filter options");
+
+		},
+
+	//Code to hadle serach inside revenue invoice value help
+		handleSearchSoldTo: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+
+			var filter1 = new Filter("Land1", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter2 = new sap.ui.model.Filter("Mcod1", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter3 = new sap.ui.model.Filter("Kunnr", sap.ui.model.FilterOperator.Contains, sValue);
+
+			var oFilter = new Filter([filter1, filter2,filter3]);
+			var oBinding = oEvent.getSource().getBinding("items");
+			oBinding.filter(oFilter, sap.ui.model.FilterType.Application);
+		},
+		
+		// Code to handle selection for immediate invoice value help
+		
+		handleCloseSoldTo: function (oEvent) {
+
+			var selectedSoldTo;
+
+			var oMultiInputSoldTo = this.byId("soldToInputId");
+			var aContexts = oEvent.getParameter("selectedContexts");
+			if (aContexts && aContexts.length) {
+				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
+				aContexts.forEach(function (oItem) {
+
+					selectedSoldTo = oItem.oModel.getProperty(oItem.sPath).Kunnr;
+
+				});
+
+			}
+
+			oMultiInputSoldTo.setValue(selectedSoldTo);
+		},
+
+	/* Logic to fetch filter options for External Delivery*/
+	
+		handleValueExtDev: function (oEvent) {
+
+			this.loadExtDev();
+		
+			
+			// create value help dialog
+			if (!this._valueHelpDialogSoldTo) {
+				this._valueHelpDialogSoldTo = sap.ui.xmlfragment(
+					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.soldTo",
+					this
+				);
+			
+				this.getView().addDependent(this._valueHelpDialogSoldTo);
+			}
+		
+			// open value help dialog filtered by the input value
+			this._valueHelpDialogSoldTo.open();
+			
+
+		},
+
+		loadExtDev: function () {
+			var oModel = this.getView().getModel("revenueModel");
+			var that = this;
+			var oView = this.getView();
+
+			oModel.read("/DebiaSet", {
+
+				success: function (oData, Response) {
+
+					// var revInvModel = new sap.ui.model.json.JSONModel();
+					// oView.setModel(revInvModel, "revInvoiceModel");
+					// oView.getModel("revInvoiceModel").setProperty("/revInvoiceSet", oData.results);
+
+					// var immInvoiceModel = new sap.ui.model.json.JSONModel(oData);
+					// 	that.getView().setModel(immInvoiceModel, "immInvoiceData");
+					// 	immInvoiceModel.setProperty("/immInvoiceSet", oData.results);
+					
+						var shipToModel = new sap.ui.model.json.JSONModel();
+					oView.setModel(shipToModel, "shipToModel");
+					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
+
+					console.log("Inside Success function Sold to", oData.results);
+				},
+
+				error: function (oData, Response, oError) {
+					console.log("Inside Error function  Sold to");
+				}
+
+			});
+
+			console.log("Inside Filter options");
+
+		},
+
+	//Code to hadle serach inside revenue invoice value help
+		handleSearchExtDev: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+
+			var filter1 = new Filter("Land1", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter2 = new sap.ui.model.Filter("Mcod1", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter3 = new sap.ui.model.Filter("Kunnr", sap.ui.model.FilterOperator.Contains, sValue);
+
+			var oFilter = new Filter([filter1, filter2,filter3]);
+			var oBinding = oEvent.getSource().getBinding("items");
+			oBinding.filter(oFilter, sap.ui.model.FilterType.Application);
+		},
+		
+		// Code to handle selection for immediate invoice value help
+		
+		handleCloseExtDev: function (oEvent) {
+
+			var selectedSoldTo;
+
+			var oMultiInputSoldTo = this.byId("soldToInputId");
+			var aContexts = oEvent.getParameter("selectedContexts");
+			if (aContexts && aContexts.length) {
+				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
+				aContexts.forEach(function (oItem) {
+
+					selectedSoldTo = oItem.oModel.getProperty(oItem.sPath).Kunnr;
+
+				});
+
+			}
+
+			oMultiInputSoldTo.setValue(selectedSoldTo);
+		},
+
+	/* Logic to fetch filter options for Outbond Delivery*/
+	
+		handleValueOutDel: function (oEvent) {
+
+			this.loadOutboundDel();
+		
+			
+			// create value help dialog
+			if (!this._valueHelpDialogOutDel) {
+				this._valueHelpDialogOutDel = sap.ui.xmlfragment(
+					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.outboundDelivery",
+					this
+				);
+			
+				this.getView().addDependent(this._valueHelpDialogOutDel);
+			}
+		
+			// open value help dialog filtered by the input value
+			this._valueHelpDialogOutDel.open();
+			
+
+		},
+
+		loadOutboundDel: function () {
+			var oModel = this.getView().getModel("revenueModel");
+			var that = this;
+			var oView = this.getView();
+
+			oModel.read("/VmvlaSet", {
+
+				success: function (oData, Response) {
+
+					// var revInvModel = new sap.ui.model.json.JSONModel();
+					// oView.setModel(revInvModel, "revInvoiceModel");
+					// oView.getModel("revInvoiceModel").setProperty("/revInvoiceSet", oData.results);
+
+					var outboundDelModel = new sap.ui.model.json.JSONModel();
+						oView.setModel(outboundDelModel, "outboundDelModel");
+					oView.getModel("outboundDelModel").setProperty("/outboundDelSet", oData.results);
+					
+					// 	var shipToModel = new sap.ui.model.json.JSONModel();
+					// oView.setModel(shipToModel, "shipToModel");
+					// oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
+
+					console.log("Inside Success function Outbound delivery", oData.results);
+				},
+
+				error: function (oData, Response, oError) {
+					console.log("Inside Error function Outbound delivery");
+				}
+
+			});
+
+			console.log("Inside Filter options");
+
+		},
+
+	//Code to hadle serach inside outbound delivery value help
+		handleSearchOutDev: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+
+			var filter1 = new Filter("Vbeln", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter2 = new sap.ui.model.Filter("Vstel", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter3 = new sap.ui.model.Filter("Route", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter4 = new sap.ui.model.Filter("Kunnr", sap.ui.model.FilterOperator.Contains, sValue);
+
+			var oFilter = new Filter([filter1, filter2,filter3,filter4]);
+			var oBinding = oEvent.getSource().getBinding("items");
+			oBinding.filter(oFilter, sap.ui.model.FilterType.Application);
+		},
+		
+		// Code to handle selection for outbound delivery value help
+		
+		handleCloseOutDev: function (oEvent) {
+
+			var selectedOutboundDev;
+
+			var oMultiInputOutDev = this.byId("outboundDelId");
+			var aContexts = oEvent.getParameter("selectedContexts");
+			if (aContexts && aContexts.length) {
+				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
+				aContexts.forEach(function (oItem) {
+
+					selectedOutboundDev = oItem.oModel.getProperty(oItem.sPath).Vbeln;
+
+				});
+
+			}
+
+			oMultiInputOutDev.setValue(selectedOutboundDev);
 		},
 
 

@@ -28,7 +28,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<fb:FilterItem label="{i18n>sapOutbound}" name="outboundFilter">
 								<fb:control>
 
-									<Input id="deliveryInputFilter" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="true" valueHelpRequest=".onValueHelpRequested">
+									<Input id="outboundDelId" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="true" valueHelpRequest="handleValueOutDel">
 									</Input>
 								</fb:control>
 							</fb:FilterItem>
@@ -44,14 +44,14 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<!--Ship to customer Filter-->
 							<fb:FilterItem name="shipToCustomerFilter" label="{i18n>shipToCustomer}">
 								<fb:control>
-										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="true"></Input>
+										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="true"  valueHelpRequest="handleValueShipTo"></Input>
 								<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
 							<!--Sold to Customer-->
 							<fb:FilterItem name="soldToCustomerFilter" label="{i18n>soldToCustomer}">
 							<fb:control>
-									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="true" ></Input>
+									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="true" valueHelpRequest="handleValueSoldTo" ></Input>
 							<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
@@ -60,7 +60,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							
 							<fb:FilterItem name="externaldeliveryFilter" label="{i18n>externalDelivery}">
 								<fb:control>
-									<Input id="externalDeliveryId" placeholder="Enter external delivery"  showSuggestion="true" showValueHelp="true" ></Input>
+									<Input id="externalDeliveryId" placeholder="Enter external delivery"  showSuggestion="true" showValueHelp="true" valueHelpRequest="handleValueExtDev" ></Input>
 									<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>

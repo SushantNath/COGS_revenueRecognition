@@ -1,56 +1,50 @@
 <core:FragmentDefinition
-	xmlns="sap.ui.comp.valuehelpdialog"
-	xmlns:m="sap.m"
-	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
-	<ValueHelpDialog
-		title="Product"
-		ok=".onValueHelpOkPress"
-		cancel=".onValueHelpCancelPress"
-		afterClose=".onValueHelpAfterClose"
-		supportRanges="true"
-		key="ProductId"
-		descriptionKey="Name"
-			supportMultiselect="false"
-	>
-		<filterBar>
-			<fb:FilterBar advancedMode="true" search=".onFilterBarSearch">
-				<fb:filterGroupItems>
-					<fb:FilterGroupItem
-						groupName="__$INTERNAL$"
-						name="ProductId"
-						label="Warehouse#"
-						visibleInFilterBar="true"
-					>
-						<fb:control>
-							<m:Input name="ProductID" />
-						</fb:control>
-					</fb:FilterGroupItem>
-					<fb:FilterGroupItem
-						groupName="__$INTERNAL$"
-						name="Name"
-						label="Manufacturing Order"
-						visibleInFilterBar="true"
-					>
-						<fb:control>
-							<m:Input name="ProductName" />
-						</fb:control>
-					</fb:FilterGroupItem>
-
-					<fb:FilterGroupItem
-						groupName="__$INTERNAL$"
-						name="Category"
-						label="Ord Text"
-						visibleInFilterBar="true"
-					>
-						<fb:control>
-							<m:Input name="Category" />
-						</fb:control>
-					</fb:FilterGroupItem>
-				</fb:filterGroupItems>
-			</fb:FilterBar>
-		</filterBar>
+	<TableSelectDialog id="outDeliveryDialog" contentWidth ="85%"
+	multiSelect="false"
+		noDataText="{i18n>noDataText}"
+		search= "handleSearchOutDev"
+		confirm="handleCloseOutDev"
+		cancel="_handleValueHelpClose"
 		
-		
-	</ValueHelpDialog>
+		items="{
+			path : 'outboundDelModel>/outboundDelSet'}">
+		<ColumnListItem>
+			<cells>
+				<ObjectIdentifier 
+				title="{outboundDelModel>Vbeln}" 
+				 />
+					<Text text="{outboundDelModel>Vstel}" />	
+					<Text text="{outboundDelModel>Route}" />
+					<Text text="{outboundDelModel>Kunnr}" />
+					
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="12em">
+				<header>
+					<Text text="{i18n>outboundDelivery}" />
+				</header>
+			</Column>
+				<Column width="12em">
+				<header>
+					<Text text="{i18n>text}" />
+				</header>
+			</Column>
+				<Column width="12em">
+				<header>
+					<Text text="{i18n>text}" />
+				</header>
+			</Column>
+			
+			
+				<Column width="12em">
+				<header>
+					<Text text="{i18n>text}" />
+				</header>
+			</Column>
+			
+		</columns>
+	</TableSelectDialog>
 </core:FragmentDefinition>
