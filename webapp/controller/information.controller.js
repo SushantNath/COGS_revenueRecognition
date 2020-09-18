@@ -7,11 +7,14 @@ sap.ui.define([
 	'sap/m/Label',
 	'sap/m/Token',
 	'sap/ui/model/json/JSONModel',
-	"sap/ui/model/Filter"
-], function (Controller, MessageToast, SearchField, typeString, ColumnListItem, Label, Token, JSONModel, Filter) {
+	"sap/ui/model/Filter",
+	'sap/ui/model/Sorter',
+	"com/sap/revenueRecognition/cogs_revenueRecognition/utilities/Formatter"
+], function (Controller, MessageToast, SearchField, typeString, ColumnListItem, Label, Token, JSONModel, Filter,Sorter,Formatter) {
 	"use strict";
 
 	return Controller.extend("com.sap.revenueRecognition.cogs_revenueRecognition.controller.information", {
+		formatter: Formatter,
 		onInit: function () {
 
 			this.oColModel = new JSONModel(sap.ui.require.toUrl("com/sap/revenueRecognition/cogs_revenueRecognition/model") +
@@ -695,8 +698,67 @@ sap.ui.define([
 				//show an error message, rest of code will not execute.
 				return false;
 			}
+			
+			//code to fetch the list of documents on click of extract documents button
+				var dateRange = this.getView().byId("DRS2");
+			// var currentDate = new Date();
+			// var from_date = new Date().setDate(currentDate.getDate() - 21);
+			// var fromDate = new Date(from_date);
+			// var to_date = new Date().setDate(currentDate.getDate());
+			// var toDate = new Date(to_date);
+			// dateRange.setDateValue(fromDate);
+			// dateRange.setSecondDateValue(toDate);
+
+			//this.setSearchFieldsFromAppState();
+
+			var dateFrom = dateRange.getDateValue();
+			var dateTo = dateRange.getSecondDateValue();
+			
+		    var outboundDelvalue = this.getView().byId("outboundDelId").getValue();
+			var shipToValue = this.getView().byId("shipToCustomerId").getValue();
+			var soldToValue = this.getView().byId("soldToInputId").getValue();
+			var extDelValue = this.getView().byId("externalDeliveryId").getValue();
+			var immInvValue = this.getView().byId("ImminvoiceTypeInputId").getValue();
+			var revinvValue = this.getView().byId("invoiceTypeInputId").getValue();
+		    var dateFromGI = dateRange.getDateValue();
+			var dateToGI = dateRange.getSecondDateValue();
+			var revInvDate = this.getView().byId("invoiceDateInpuIdt").getDateValue();
+
+			//Filters
+			var outboundDelFilter = new sap.ui.model.Filter("DeliveryNo", sap.ui.model.FilterOperator.EQ, outboundDelvalue);
+			var shipToFilter = new sap.ui.model.Filter("Shiptoparty", sap.ui.model.FilterOperator.EQ, shipToValue);
+			var soldToFilter = new sap.ui.model.Filter("Soldtoparty", sap.ui.model.FilterOperator.EQ, soldToValue);
+			var extDelFilter = new sap.ui.model.Filter("Externaldelno", sap.ui.model.FilterOperator.EQ, extDelValue);
+			
+				var immInvFilter = new sap.ui.model.Filter("Imminvoicetype", sap.ui.model.FilterOperator.EQ, immInvValue);
+			var revinvFilter = new sap.ui.model.Filter("Revinvoicetype", sap.ui.model.FilterOperator.EQ, revinvValue);
+			 var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
+		 var revInvDateFromFilter	=  new sap.ui.model.Filter("Revinvdate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(revInvDate) + "T00:00:00");
+		//	var custPoFilter = new sap.ui.model.Filter("CustPoNumber", sap.ui.model.FilterOperator.EQ, custPoNumber);
+		//	var revInvDateFilter = new sap.ui.model.Filter("DistRefNumber", sap.ui.model.FilterOperator.EQ, revInvDate);
+
+			// var revInvDateFromFilter = new sap.ui.model.Filter("IFromDate", sap.ui.model.FilterOperator.GE,revInvDate );
+			// var IToDate = new sap.ui.model.Filter("IToDate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateTo) +
+			//	"T23:59:59.999Z");
+       
+		var oModel = this.getView().getModel("revenueModel");
+			var that = this;
+
+			//Call Backend for last 30 days of Invoices
+			oModel.read("/DeliverySet", {
+			
+				success: function (oData, Response) {
+				
+				console.log("Inside extract button success");
+				},
+				error: function (oData, Response, oError) {
+				console.log("Inside extract butoon error");
+				},
+				filters: [outboundDelFilter, shipToFilter, soldToFilter, extDelFilter, immInvFilter, revinvFilter,revInvDateFromFilter,dateFromGIFilter]
+			});
 
 		},
+		//code to check validation of required fields from client side
 		returnIdListOfRequiredFields: function () {
 			var requiredInputs = [];
 			$('[data-required="true"]').each(function () {
@@ -704,6 +766,7 @@ sap.ui.define([
 			});
 			return requiredInputs;
 		},
+		
 		validateEventFeedbackForm: function (requiredInputs) {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			var _self = this;
