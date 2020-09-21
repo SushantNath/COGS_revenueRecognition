@@ -49,7 +49,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("revenueModel");
 			var that = this;
 			var oView = this.getView();
-
+sap.ui.core.BusyIndicator.show();
 			oModel.read("/HTvfkSet", {
 
 				success: function (oData, Response) {
@@ -57,7 +57,7 @@ sap.ui.define([
 					var orderModel = new sap.ui.model.json.JSONModel();
 					oView.setModel(orderModel, "shipToModel");
 					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
-
+sap.ui.core.BusyIndicator.hide();
 					// var immInvoiceModel = new sap.ui.model.json.JSONModel(oData);
 					// 	that.getView().setModel(immInvoiceModel, "immInvoiceData");
 					// 	immInvoiceModel.setProperty("/immInvoiceSet", oData.results);
@@ -81,7 +81,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("revenueModel");
 			var that = this;
 			var oView = this.getView();
-
+sap.ui.core.BusyIndicator.show();
 			oModel.read("/HTvfkSet", {
 
 				success: function (oData, Response) {
@@ -97,7 +97,7 @@ sap.ui.define([
 						var orderModel = new sap.ui.model.json.JSONModel();
 					oView.setModel(orderModel, "shipToModel");
 					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
-
+sap.ui.core.BusyIndicator.hide();
 					console.log("Inside Success function revenue invoice", oData.results);
 				},
 
@@ -314,7 +314,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("revenueModel");
 			var that = this;
 			var oView = this.getView();
-
+sap.ui.core.BusyIndicator.show();
 			oModel.read("/DebiaSet", {
 
 				success: function (oData, Response) {
@@ -330,7 +330,7 @@ sap.ui.define([
 						var shipToModel = new sap.ui.model.json.JSONModel();
 					oView.setModel(shipToModel, "shipToModel");
 					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
-
+sap.ui.core.BusyIndicator.hide();
 					console.log("Inside Success function revenue invoice", oData.results);
 				},
 
@@ -406,7 +406,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("revenueModel");
 			var that = this;
 			var oView = this.getView();
-
+sap.ui.core.BusyIndicator.show();
 			oModel.read("/DebiaSet", {
 
 				success: function (oData, Response) {
@@ -422,7 +422,7 @@ sap.ui.define([
 						var shipToModel = new sap.ui.model.json.JSONModel();
 					oView.setModel(shipToModel, "shipToModel");
 					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
-
+sap.ui.core.BusyIndicator.hide();
 					console.log("Inside Success function Sold to", oData.results);
 				},
 
@@ -497,7 +497,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("revenueModel");
 			var that = this;
 			var oView = this.getView();
-
+sap.ui.core.BusyIndicator.show();
 			oModel.read("/DebiaSet", {
 
 				success: function (oData, Response) {
@@ -513,7 +513,7 @@ sap.ui.define([
 						var shipToModel = new sap.ui.model.json.JSONModel();
 					oView.setModel(shipToModel, "shipToModel");
 					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
-
+sap.ui.core.BusyIndicator.hide();
 					console.log("Inside Success function Sold to", oData.results);
 				},
 
@@ -588,7 +588,7 @@ sap.ui.define([
 			var oModel = this.getView().getModel("revenueModel");
 			var that = this;
 			var oView = this.getView();
-
+sap.ui.core.BusyIndicator.show();
 			oModel.read("/VmvlaSet", {
 
 				success: function (oData, Response) {
@@ -604,7 +604,7 @@ sap.ui.define([
 					// 	var shipToModel = new sap.ui.model.json.JSONModel();
 					// oView.setModel(shipToModel, "shipToModel");
 					// oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
-
+sap.ui.core.BusyIndicator.hide();
 					console.log("Inside Success function Outbound delivery", oData.results);
 				},
 
@@ -695,10 +695,12 @@ sap.ui.define([
 			var requiredInputs = this.returnIdListOfRequiredFields();
 			var passedValidation = this.validateEventFeedbackForm(requiredInputs);
 			if (passedValidation === false) {
-				//show an error message, rest of code will not execute.
+				MessageToast.show("Please enter all the required fieds");	
 				return false;
 			}
 			
+			else{
+			sap.ui.core.BusyIndicator.show();
 			//code to fetch the list of documents on click of extract documents button
 				var dateRange = this.getView().byId("DRS2");
 			// var currentDate = new Date();
@@ -722,6 +724,23 @@ sap.ui.define([
 			var revinvValue = this.getView().byId("invoiceTypeInputId").getValue();
 		    var dateFromGI = dateRange.getDateValue();
 			var dateToGI = dateRange.getSecondDateValue();
+			 if(dateFromGI === null){
+
+		    	dateFromGI = "9999-12-31";
+		    	var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
+		   var dateToGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateToGI) + "T00:00:00");
+		    }
+		    
+		    else{
+		    	
+		    	var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
+		    	var dateToGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateToGI) );
+		    }
+// if(dateToGI === null){
+
+// 		    	dateToGI ="9999-01-01T00:00:00";
+// 		    }
+			
 			var revInvDate = this.getView().byId("invoiceDateInpuIdt").getDateValue();
 
 			//Filters
@@ -732,7 +751,7 @@ sap.ui.define([
 			
 				var immInvFilter = new sap.ui.model.Filter("Imminvoicetype", sap.ui.model.FilterOperator.EQ, immInvValue);
 			var revinvFilter = new sap.ui.model.Filter("Revinvoicetype", sap.ui.model.FilterOperator.EQ, revinvValue);
-			 var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
+		//	 var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
 		 var revInvDateFromFilter	=  new sap.ui.model.Filter("Revinvdate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(revInvDate) + "T00:00:00");
 		//	var custPoFilter = new sap.ui.model.Filter("CustPoNumber", sap.ui.model.FilterOperator.EQ, custPoNumber);
 		//	var revInvDateFilter = new sap.ui.model.Filter("DistRefNumber", sap.ui.model.FilterOperator.EQ, revInvDate);
@@ -749,21 +768,25 @@ sap.ui.define([
 			
 				success: function (oData, Response) {
 				
-					// var docTableModel = new sap.ui.model.json.JSONModel(oData);
-					// that.getView().setModel(docTableModel, "docTableData");
-					// docTableModel.setProperty("/docTableSet", oData.results);
+					 var docTableModel = new sap.ui.model.json.JSONModel(oData);
+					 that.getView().setModel(docTableModel, "docTableModel");
+					 that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
+			//	 docTableModel.setProperty("/docTableSet", oData.results);
 					
-						var shipToModel1 = new sap.ui.model.json.JSONModel();
-					that.getView().setModel(shipToModel1, "shipToModel1");
-					that.getView().getModel("shipToModel1").setProperty("/ShipToPartySet1", oData.results);
-				
+					// 	var shipToModel1 = new sap.ui.model.json.JSONModel();
+					// that.getView().setModel(shipToModel1, "shipToModel1");
+					// that.getView().getModel("shipToModel1").setProperty("/ShipToPartySet1", oData.results);
+				sap.ui.core.BusyIndicator.hide();
 				console.log("Inside extract button success",oData.results);
 				},
 				error: function (oData, Response, oError) {
 				console.log("Inside extract butoon error");
+				sap.ui.core.BusyIndicator.hide();
 				},
-				filters: [outboundDelFilter, shipToFilter, soldToFilter, extDelFilter, immInvFilter, revinvFilter,revInvDateFromFilter,dateFromGIFilter]
+				filters: [outboundDelFilter, shipToFilter, soldToFilter, extDelFilter, immInvFilter, revinvFilter,revInvDateFromFilter,dateFromGIFilter,dateToGIFilter]
 			});
+
+}
 
 		},
 		//code to check validation of required fields from client side

@@ -28,7 +28,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<fb:FilterItem label="{i18n>sapOutbound}" name="outboundFilter">
 								<fb:control>
 
-									<Input id="outboundDelId" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="true" valueHelpRequest="handleValueOutDel">
+									<Input id="outboundDelId" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueOutDel">
 									</Input>
 								</fb:control>
 							</fb:FilterItem>
@@ -36,7 +36,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<fb:FilterItem label="{i18n>goodsIssuedate}" name="goodsIssueFilter">
 								<fb:control>
 									<!--<DatePicker id="goodsIssueId" placeholder="Enter goods issuedDate ..." change="handleChange" />-->
-										<DateRangeSelection
+										<DateRangeSelection 
 			id="DRS2"
 			change="handleChange"/>
 								</fb:control>
@@ -44,14 +44,14 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<!--Ship to customer Filter-->
 							<fb:FilterItem name="shipToCustomerFilter" label="{i18n>shipToCustomer}">
 								<fb:control>
-										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="true"  valueHelpRequest="handleValueShipTo"></Input>
+										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueShipTo"></Input>
 								<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
 							<!--Sold to Customer-->
 							<fb:FilterItem name="soldToCustomerFilter" label="{i18n>soldToCustomer}">
 							<fb:control>
-									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="true" valueHelpRequest="handleValueSoldTo" ></Input>
+									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueSoldTo" ></Input>
 							<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
@@ -60,7 +60,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							
 							<fb:FilterItem name="externaldeliveryFilter" label="{i18n>externalDelivery}">
 								<fb:control>
-									<Input id="externalDeliveryId" placeholder="Enter external delivery"  showSuggestion="true" showValueHelp="true" valueHelpRequest="handleValueExtDev" ></Input>
+									<Input id="externalDeliveryId" placeholder="Enter external delivery"  showSuggestion="true" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueExtDev" ></Input>
 									<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
@@ -69,7 +69,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="ImminvoiceTypeFilter" label="{i18n>immInvoicetype}"  >
 								<fb:control>
-									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" value="ZF30" showValueHelp="true" valueHelpRequest="handleValueHelpImmInv">
+									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" value="ZF30" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpImmInv">
 										<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -82,7 +82,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="invoiceTypeFilter" label="{i18n>invoiceType}">
 								<fb:control>
-									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="ZF20" showValueHelp="true" valueHelpRequest="handleValueHelpRevInv">
+									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="ZF20" showValueHelp="true" valueHelpOnly="true" valueHelpRequest="handleValueHelpRevInv">
 										<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>
@@ -119,7 +119,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 			<f:content>
 			<Table id="idProductsTable"  mode="MultiSelect" growing="true"
 					growingThreshold="5" items="{
-			path : 'shipToModel1>/ShipToPartySet1'}"
+			path : 'docTableModel>/docTableSet'}"
 		inset="false"
 		>
 	
@@ -184,23 +184,26 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 				<cells>
 					<ObjectIdentifier
 						title="{}"
-						text="{shipToModel1>Salesorg}"/>
+						text="{docTableModel>Salesorg}"/>
 					<Text
-						text="{shipToModel1>DeliveryNo}" />
+						text="{docTableModel>DeliveryNo}" />
 					<Text
-						text="{shipToModel1>Externaldelno}" />
+						text="{docTableModel>Externaldelno}" />
 					<Text
-						text="{shipToModel1>Soldtoparty}" />
+						text="{docTableModel>Soldtoparty}" />
 					<Text
-						text="{shipToModel1>Shiptoparty}" />
+						text="{docTableModel>Shiptoparty}" />
 							<Text
-						text="{shipToModel1>Imminvoiceno}" />
+						text="{docTableModel>Imminvoiceno}" />
 							<Text
-						text="{shipToModel1>Imminvreversalno}" />
+						text="{docTableModel>Imminvreversalno}" />
 							<Text
-						text="{shipToModel1>Revenueinvoice}" />
+						text="{docTableModel>Revenueinvoice}" />
 <Text
-						text="{shipToModel1>Poddelstat}" />
+						text= "{=${docTableModel>Poddelstat}=== 'A' ? 'Approved' : 'Pending' }" />
+						
+	
+						
 				</cells>
 			</ColumnListItem>
 		</items>
