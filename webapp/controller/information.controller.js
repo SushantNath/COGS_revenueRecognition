@@ -660,6 +660,8 @@ sap.ui.core.BusyIndicator.hide();
 		onClickGetDocs: function (e) {
 			var valid = true;
 			var podDateValue = this.getView().byId("podDateId");
+		var podDate = podDateValue.mProperties.dateValue;
+			var formatPodDate = Formatter.formatterDateAllOrders(podDate) ;
 			var docTableLength = this.getView().byId("idProductsTable").getSelectedItems();
 				var oModel = this.getView().getModel("revenueModel");
 			var msg = "Please select atleast one document";
@@ -672,15 +674,13 @@ sap.ui.core.BusyIndicator.hide();
 			}
 			if (docTableLength.length > 0) {
 				
-			//	var selectedDocs = e.getSource().getModel("docTableModel").getProperty(docTableLength[0].oBindingContexts.docTableModel.sPath);
-				
 				docTableLength.forEach(function (oItem) {
 					
 				var selectedValue = oItem.oBindingContexts.docTableModel.sPath;
 			var tableValue =	e.getSource().getModel("docTableModel").getProperty(selectedValue);
+			tableValue.Poddate =formatPodDate;
 			selectedArray.push(tableValue);
-			//	console.log("Inside selected items",tableValue);
-				
+			
 			});
 				
 
@@ -698,24 +698,19 @@ console.log("Selected values array is",selectedArray);
 					// 	"d": this.getOrderDataForSimulate()
 					// };
 					
- var oEntry = {};
- 
- var customDate = "2020-09-06T00:00:00";
-
- 
-
-oEntry.DeliveryNo = "80002160";
-oEntry.Goodsissuedate = "2020-09-06T00:00:00";
-oEntry.Soldtoparty = "10000019";
-oEntry.Shiptoparty = "10000019";
-oEntry.Externaldelno = "";
-oEntry.Imminvoicetype = "";
-oEntry.Revinvdate = "2020-09-06T00:00:00";
-oEntry.Salesorg = "415D";
-oEntry.Imminvoiceno = "90001518";
-oEntry.Imminvreversalno = "90001519";
-oEntry.Revenueinvoice = "90001520";
-oEntry.Poddelstat = "C";
+//  var oEntry = {};
+// oEntry.DeliveryNo = "80002160";
+// oEntry.Goodsissuedate = "2020-09-06T00:00:00";
+// oEntry.Soldtoparty = "10000019";
+// oEntry.Shiptoparty = "10000019";
+// oEntry.Externaldelno = "";
+// oEntry.Imminvoicetype = "";
+// oEntry.Revinvdate = "2020-09-06T00:00:00";
+// oEntry.Salesorg = "415D";
+// oEntry.Imminvoiceno = "90001518";
+// oEntry.Imminvreversalno = "90001519";
+// oEntry.Revenueinvoice = "90001520";
+// oEntry.Poddelstat = "C";
 
 			//	var todayDate = new Date();
 					// postData = {
@@ -768,11 +763,11 @@ oEntry.Poddelstat = "C";
 
 ///////////////////////
 
-			oModel.setDeferredGroups(["OrderCancelBatch"]);
+			oModel.setDeferredGroups(["CreateDocumentBatch"]);
 			oModel.setUseBatch(true);
-			var aCancelOrderPayload = selectedArray,
+			var aCreateDocPayload = selectedArray,
 				mParameters = {
-					batchGroupId: "OrderCancelBatch",
+					batchGroupId: "CreateDocumentBatch",
 					success: function (oData, oRet) {
 
 						console.log("Inside success batch");
@@ -784,8 +779,8 @@ oEntry.Poddelstat = "C";
 					}.bind(this)
 				};
 
-			for (var m = 0; m < aCancelOrderPayload.length; m++) {
-				oModel.create("/DeliverySet", aCancelOrderPayload[m], mParameters);
+			for (var m = 0; m < aCreateDocPayload.length; m++) {
+				oModel.create("/DeliverySet", aCreateDocPayload[m], mParameters);
 			}
 			oModel.submitChanges(mParameters);
 
