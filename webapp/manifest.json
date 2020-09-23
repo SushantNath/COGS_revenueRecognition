@@ -19,7 +19,10 @@
 				"uri": "/sap/opu/odata/sap/ZOTC_DELIVERY_COGS_REVNU_REC_SRV",
 				"type": "OData",
 				"settings": {
-					"odataVersion": "2.0"
+					"odataVersion": "2.0",
+					"useBatch" : true,
+          "defaultBindingMode": "TwoWay",
+          "defaultCountMode" : "None"
 				}
 			}
 		}

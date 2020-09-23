@@ -657,11 +657,13 @@ sap.ui.core.BusyIndicator.hide();
 
 		/* code to check validation for Extract documents */
 
-		onClickGetDocs: function () {
+		onClickGetDocs: function (e) {
 			var valid = true;
 			var podDateValue = this.getView().byId("podDateId");
 			var docTableLength = this.getView().byId("idProductsTable").getSelectedItems();
+				var oModel = this.getView().getModel("revenueModel");
 			var msg = "Please select atleast one document";
+			var selectedArray = [];
 			if (podDateValue.getValue() == "" || podDateValue.getValue() == undefined) {
 				valid = false;
 				podDateValue.setValueState("Error");
@@ -669,23 +671,135 @@ sap.ui.core.BusyIndicator.hide();
 				podDateValue.setValueState("Success");
 			}
 			if (docTableLength.length > 0) {
+				
+			//	var selectedDocs = e.getSource().getModel("docTableModel").getProperty(docTableLength[0].oBindingContexts.docTableModel.sPath);
+				
+				docTableLength.forEach(function (oItem) {
+					
+				var selectedValue = oItem.oBindingContexts.docTableModel.sPath;
+			var tableValue =	e.getSource().getModel("docTableModel").getProperty(selectedValue);
+			selectedArray.push(tableValue);
+			//	console.log("Inside selected items",tableValue);
+				
+			});
+				
 
 			} else {
 
 				MessageToast.show(msg);
 			}
 
+console.log("Selected values array is",selectedArray);
+
 			var oFilter = this.getView().byId("filterbar"),
 				that = this;
+				
+					// postData = {
+					// 	"d": this.getOrderDataForSimulate()
+					// };
+					
+ var oEntry = {};
+ 
+ var customDate = "2020-09-06T00:00:00";
 
-			oFilter.addEventDelegate({
-				"onAfterRendering": function (oEvent) {
-					var oResourceBundle = that.getOwnerComponent().getModel("i18n").getResourceBundle();
+ 
 
-					var oButton = oEvent.srcControl._oSearchButton;
-					oButton.setText(oResourceBundle.getText("goButton"));
-				}
-			});
+oEntry.DeliveryNo = "80002160";
+oEntry.Goodsissuedate = "2020-09-06T00:00:00";
+oEntry.Soldtoparty = "10000019";
+oEntry.Shiptoparty = "10000019";
+oEntry.Externaldelno = "";
+oEntry.Imminvoicetype = "";
+oEntry.Revinvdate = "2020-09-06T00:00:00";
+oEntry.Salesorg = "415D";
+oEntry.Imminvoiceno = "90001518";
+oEntry.Imminvreversalno = "90001519";
+oEntry.Revenueinvoice = "90001520";
+oEntry.Poddelstat = "C";
+
+			//	var todayDate = new Date();
+					// postData = {
+					// 	"d": this.getOrderDataForSimulate()
+					// };
+
+// 					var dateFormat = sap.ui.core.format.DateFormat.getDateInstance();   
+// var dateFormatted = dateFormat.format(todayDate);
+
+// screenDate=view.byId("screeningDate").getValue();
+// var date = view.byId("__date");
+// Make date object out of screenDate
+//var dateObject = new Date();
+// SAPUI5 date formatter
+//var dateFormat = sap.ui.core.format.DateFormat.getDateInstance({pattern : "YYYY-MM-dd" }); 
+// Format the date
+//var dateFormatted = dateFormat.format(dateObject);
+//date.setText(dateFormatted);
+
+ 
+ //oEntry.Goodsissuedate =dateFormatted;
+ //oEntry.Revinvdate = dateFormatted;
+ 
+ 
+				
+				// 	oModel.create("/DeliverySet", oEntry, {
+				// 	success: function (oData) {
+				// 	console.log("Inside success update");
+						
+						
+				// 	}.bind(this),
+				// 	error: function (oError) {
+				// 	console.log("Inside error update");
+				// 	}.bind(this)
+				// });
+
+//Batch update code
+
+//  var batchChanges = [];  
+
+// for (var i = 0; i < selectedArray.length; i++) {
+//     batchChanges.push(oModel.createBatchOperation("/DeliverySet", "POST", selectedArray[i]));
+// }
+
+// oModel.addBatchChangeOperations(batchChanges); 
+// oModel.setUseBatch(true);
+// oModel.submitBatch();
+
+
+///////////////////////
+
+			oModel.setDeferredGroups(["OrderCancelBatch"]);
+			oModel.setUseBatch(true);
+			var aCancelOrderPayload = selectedArray,
+				mParameters = {
+					batchGroupId: "OrderCancelBatch",
+					success: function (oData, oRet) {
+
+						console.log("Inside success batch");
+						
+					}.bind(this),
+					error: function (oError, resp) {
+						console.log("Inside error batch");
+
+					}.bind(this)
+				};
+
+			for (var m = 0; m < aCancelOrderPayload.length; m++) {
+				oModel.create("/DeliverySet", aCancelOrderPayload[m], mParameters);
+			}
+			oModel.submitChanges(mParameters);
+
+/////////////////////////
+
+
+
+			// oFilter.addEventDelegate({
+			// 	"onAfterRendering": function (oEvent) {
+			// 		var oResourceBundle = that.getOwnerComponent().getModel("i18n").getResourceBundle();
+
+			// 		var oButton = oEvent.srcControl._oSearchButton;
+			// 		oButton.setText(oResourceBundle.getText("goButton"));
+			// 	}
+			// });
 
 		},
 
@@ -724,16 +838,18 @@ sap.ui.core.BusyIndicator.hide();
 			var revinvValue = this.getView().byId("invoiceTypeInputId").getValue();
 		    var dateFromGI = dateRange.getDateValue();
 			var dateToGI = dateRange.getSecondDateValue();
-			 if(dateFromGI === null){
+		if(dateFromGI === null){
 
-		    	dateFromGI = "9999-12-31";
-		    	var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
-		   var dateToGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateToGI) + "T00:00:00");
+		    	dateFromGI = "1900-01-01";
+		    	dateToGI = "9999-12-31";
+		    	var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.GE, Formatter.formatterDateAllOrders(dateFromGI));
+
+		    	var dateToGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateToGI));
 		    }
 		    
 		    else{
 		    	
-		    	var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
+		    	var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.GE, Formatter.formatterDateAllOrders(dateFromGI) );
 		    	var dateToGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateToGI) );
 		    }
 // if(dateToGI === null){
@@ -752,12 +868,12 @@ sap.ui.core.BusyIndicator.hide();
 				var immInvFilter = new sap.ui.model.Filter("Imminvoicetype", sap.ui.model.FilterOperator.EQ, immInvValue);
 			var revinvFilter = new sap.ui.model.Filter("Revinvoicetype", sap.ui.model.FilterOperator.EQ, revinvValue);
 		//	 var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
-		 var revInvDateFromFilter	=  new sap.ui.model.Filter("Revinvdate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(revInvDate) + "T00:00:00");
+		 var revInvDateFromFilter	=  new sap.ui.model.Filter("Revinvdate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(revInvDate));
 		//	var custPoFilter = new sap.ui.model.Filter("CustPoNumber", sap.ui.model.FilterOperator.EQ, custPoNumber);
 		//	var revInvDateFilter = new sap.ui.model.Filter("DistRefNumber", sap.ui.model.FilterOperator.EQ, revInvDate);
 
 			// var revInvDateFromFilter = new sap.ui.model.Filter("IFromDate", sap.ui.model.FilterOperator.GE,revInvDate );
-			// var IToDate = new sap.ui.model.Filter("IToDate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateTo) +
+		//	 var IToDate = new sap.ui.model.Filter("IToDate", sap.ui.model.FilterOperator.LE, Formatter.formatterDateAllOrders(dateTo) +
 			//	"T23:59:59.999Z");
        
 		var oModel = this.getView().getModel("revenueModel");
