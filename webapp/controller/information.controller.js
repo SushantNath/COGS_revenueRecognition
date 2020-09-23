@@ -660,6 +660,7 @@ sap.ui.core.BusyIndicator.hide();
 		onClickGetDocs: function (e) {
 			var valid = true;
 			var podDateValue = this.getView().byId("podDateId");
+			var that = this;
 		var podDate = podDateValue.mProperties.dateValue;
 			var formatPodDate = Formatter.formatterDateAllOrders(podDate) ;
 			var docTableLength = this.getView().byId("idProductsTable").getSelectedItems();
@@ -681,18 +682,54 @@ sap.ui.core.BusyIndicator.hide();
 			tableValue.Poddate =formatPodDate;
 			selectedArray.push(tableValue);
 			
+			
 			});
+				
+				
+						/////////////////////// code to trigger batch operation for create documents
+
+			oModel.setDeferredGroups(["CreateDocumentBatch"]);
+			oModel.setUseBatch(true);
+			var aCreateDocPayload = selectedArray,
+				mParameters = {
+					batchGroupId: "CreateDocumentBatch",
+					success: function (oData, oRet) {
+						
+						 var docTableModel = new sap.ui.model.json.JSONModel(oData);
+					 that.getView().setModel(docTableModel, "docTableModel");
+					 that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
+
+						console.log("Inside success batch");
+						
+					}.bind(this),
+					error: function (oError, resp) {
+						console.log("Inside error batch");
+
+					}.bind(this)
+				};
+
+			for (var m = 0; m < aCreateDocPayload.length; m++) {
+				oModel.create("/DeliverySet", aCreateDocPayload[m], mParameters);
+			}
+			oModel.submitChanges(mParameters);
+
+/////////////////////////
+
+				
 				
 
 			} else {
 
 				MessageToast.show(msg);
 			}
+			
+			
+	
 
-console.log("Selected values array is",selectedArray);
+// console.log("Selected values array is",selectedArray);
 
-			var oFilter = this.getView().byId("filterbar"),
-				that = this;
+// 			var oFilter = this.getView().byId("filterbar"),
+// 				that = this;
 				
 					// postData = {
 					// 	"d": this.getOrderDataForSimulate()
@@ -761,30 +798,6 @@ console.log("Selected values array is",selectedArray);
 
 
 
-///////////////////////
-
-			oModel.setDeferredGroups(["CreateDocumentBatch"]);
-			oModel.setUseBatch(true);
-			var aCreateDocPayload = selectedArray,
-				mParameters = {
-					batchGroupId: "CreateDocumentBatch",
-					success: function (oData, oRet) {
-
-						console.log("Inside success batch");
-						
-					}.bind(this),
-					error: function (oError, resp) {
-						console.log("Inside error batch");
-
-					}.bind(this)
-				};
-
-			for (var m = 0; m < aCreateDocPayload.length; m++) {
-				oModel.create("/DeliverySet", aCreateDocPayload[m], mParameters);
-			}
-			oModel.submitChanges(mParameters);
-
-/////////////////////////
 
 
 
