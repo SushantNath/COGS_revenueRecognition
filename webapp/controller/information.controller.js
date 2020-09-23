@@ -662,7 +662,7 @@ sap.ui.core.BusyIndicator.hide();
 			var podDateValue = this.getView().byId("podDateId");
 			var that = this;
 		var podDate = podDateValue.mProperties.dateValue;
-			var formatPodDate = Formatter.formatterDateAllOrders(podDate) ;
+		var formatPodDate = Formatter.formatterDateAllOrders(podDate)  + "T00:00:00" ;
 			var docTableLength = this.getView().byId("idProductsTable").getSelectedItems();
 				var oModel = this.getView().getModel("revenueModel");
 			var msg = "Please select atleast one document";
@@ -695,9 +695,9 @@ sap.ui.core.BusyIndicator.hide();
 					batchGroupId: "CreateDocumentBatch",
 					success: function (oData, oRet) {
 						
-						 var docTableModel = new sap.ui.model.json.JSONModel(oData);
-					 that.getView().setModel(docTableModel, "docTableModel");
-					 that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
+						//  var docTableModel = new sap.ui.model.json.JSONModel(oData);
+					 //that.getView().setModel(docTableModel, "docTableModel");
+					 //that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
 
 						console.log("Inside success batch");
 						
@@ -896,11 +896,16 @@ sap.ui.core.BusyIndicator.hide();
 					 var docTableModel = new sap.ui.model.json.JSONModel(oData);
 					 that.getView().setModel(docTableModel, "docTableModel");
 					 that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
-			//	 docTableModel.setProperty("/docTableSet", oData.results);
-					
-					// 	var shipToModel1 = new sap.ui.model.json.JSONModel();
-					// that.getView().setModel(shipToModel1, "shipToModel1");
-					// that.getView().getModel("shipToModel1").setProperty("/ShipToPartySet1", oData.results);
+					 
+				//logic to highlight row color for processed documents	 
+	that.getView().byId("idProductsTable").getItems().forEach(function (item) {
+						if (item.getCells()[8].getText() === "Completely processed") {
+							item.addStyleClass("overdueRow");
+							item.setHighlight("Error");
+							item.getCells()[2].addStyleClass("overdueText");
+						}
+					});
+		
 				sap.ui.core.BusyIndicator.hide();
 				console.log("Inside extract button success",oData.results);
 				},

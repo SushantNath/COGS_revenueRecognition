@@ -117,8 +117,8 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 
 			<!-- DynamicPage Content -->
 			<f:content>
-			<Table id="idProductsTable"  mode="MultiSelect" growing="true"
-					growingThreshold="5" items="{
+			<Table id="idProductsTable"  mode="MultiSelect"
+				 items="{
 			path : 'docTableModel>/docTableSet'}"
 		inset="false" selectionChange="onDocumentSelection" itemPress="handleOperationSelect"
 		>
@@ -200,7 +200,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							<Text
 						text="{docTableModel>Revenueinvoice}" />
 <Text
-						text= "{=${docTableModel>Poddelstat}=== 'A' ? 'Not yet processed'  :  ${docTableModel>Poddelstat}=== 'B' ? 'Partially processed' : 'Completely procesed' }" />
+						text= "{=${docTableModel>Poddelstat}=== 'A' ? 'Not yet processed'  :  ${docTableModel>Poddelstat}=== 'B' ? 'Partially processed' : 'Completely processed' }" />
 						
 					
 						

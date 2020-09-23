@@ -69,3 +69,13 @@
     border: 0px solid transparent !important;
     box-shadow: 0 0 0.125rem 0 rgba(0,0,0,0.3) !important;
 }
+
+/* Highlighting completed documents to red*/
+.sapMText .overdueText, .overdueText{
+	/*color: rgba(255,0,0) !important;*/
+	color: #ff0000 !important;
+}
+
+.overdueRow{
+    background-color: rgba(255,0,0,0.1) !important;
+}
