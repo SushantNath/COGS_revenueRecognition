@@ -675,6 +675,8 @@ sap.ui.core.BusyIndicator.hide();
 			}
 			if (docTableLength.length > 0) {
 				
+				sap.ui.core.BusyIndicator.show();
+				
 				docTableLength.forEach(function (oItem) {
 					
 				var selectedValue = oItem.oBindingContexts.docTableModel.sPath;
@@ -724,7 +726,7 @@ sap.ui.core.BusyIndicator.hide();
 			}
 			
 			
-	
+	sap.ui.core.BusyIndicator.hide();
 
 // console.log("Selected values array is",selectedArray);
 
