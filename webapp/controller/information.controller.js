@@ -530,21 +530,21 @@ sap.ui.define([
 
 		handleCloseExtDev: function (oEvent) {
 
-			var selectedSoldTo;
+			var selectedExtDel;
 
-			var oMultiInputSoldTo = this.byId("soldToInputId");
+			var oMultiInputExtDel = this.byId("externalDeliveryId");
 			var aContexts = oEvent.getParameter("selectedContexts");
 			if (aContexts && aContexts.length) {
 				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
 				aContexts.forEach(function (oItem) {
 
-					selectedSoldTo = oItem.oModel.getProperty(oItem.sPath).Kunnr;
+					selectedExtDel = oItem.oModel.getProperty(oItem.sPath).Kunnr;
 
 				});
 
 			}
 
-			oMultiInputSoldTo.setValue(selectedSoldTo);
+			oMultiInputExtDel.setValue(selectedExtDel);
 		},
 
 		/* Logic to fetch filter options for Outbond Delivery*/
@@ -818,6 +818,7 @@ sap.ui.define([
 
 					var selectedPoddleArray = [];
 					var poddelValue;
+					var poddelValue1;
 
 					//sap.ui.core.BusyIndicator.show();
 
@@ -826,10 +827,11 @@ sap.ui.define([
 						var selectedValue = oItem.oBindingContexts.docTableModel.sPath;
 						var tableValue = e.getSource().getModel("docTableModel").getProperty(selectedValue);
 						tableValue.Poddate = formatPodDate;
-						poddelValue = tableValue.Poddelstat;
+						poddelValue = tableValue.Imminvreversalno;
+						poddelValue1 = tableValue.Revenueinvoice;
 						selectedArray.push(tableValue);
 
-						if (poddelValue === "C") {
+					if (poddelValue !== "" || poddelValue1 !=="" ) {
 							selectedPoddleArray.push(poddelValue);
 
 						}
@@ -838,13 +840,14 @@ sap.ui.define([
 
 					if (selectedPoddleArray.length > 0) {
 
-						MessageToast.show("Please remove the error selections to proceed");
+						MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("errorSelection"));
 
 					} else {
 
 						console.log("Ouside selected row array");
 
 						/////////////////////// code to trigger batch operation for create documents
+						sap.ui.core.BusyIndicator.show();
 
 						oModel.setDeferredGroups(["CreateDocumentBatch"]);
 						oModel.setUseBatch(true);
@@ -856,11 +859,12 @@ sap.ui.define([
 									//  var docTableModel = new sap.ui.model.json.JSONModel(oData);
 									//that.getView().setModel(docTableModel, "docTableModel");
 									//that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
-
+                             sap.ui.core.BusyIndicator.hide();
 									console.log("Inside success batch");
 
 								}.bind(this),
 								error: function (oError, resp) {
+									 sap.ui.core.BusyIndicator.hide();
 									console.log("Inside error batch");
 
 								}.bind(this)
@@ -877,7 +881,7 @@ sap.ui.define([
 
 				} else {
 
-					MessageToast.show(msg);
+					MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("documentSelection"));
 				}
 
 				//sap.ui.core.BusyIndicator.hide();
@@ -974,7 +978,8 @@ sap.ui.define([
 
 						//logic to highlight row color for processed documents	 
 						that.getView().byId("idProductsTable").getItems().forEach(function (item) {
-							if (item.getCells()[8].getText() === "Completely processed") {
+						//	if (item.getCells()[8].getText() === "Completely processed") {
+						if (item.getCells()[6].getText() !== "" || item.getCells()[7].getText() !== "" ) {
 								item.addStyleClass("overdueRow");
 								item.setHighlight("Error");
 								item.getCells()[2].addStyleClass("overdueText");
