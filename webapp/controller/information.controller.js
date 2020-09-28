@@ -806,13 +806,13 @@ sap.ui.define([
 			var oModel = this.getView().getModel("revenueModel");
 			var msg = "Please select atleast one document";
 			var selectedArray = [];
-// logic to check if POD date is filled or not
+			// logic to check if POD date is filled or not
 			if (podDateValue.getValue() == "" || podDateValue.getValue() == undefined) {
 				valid = false;
 				podDateValue.setValueState("Error");
 			} else {
 				podDateValue.setValueState("Success");
-//Logic to check if atleast one document is selected from table or not
+				//Logic to check if atleast one document is selected from table or not
 				if (docTableLength.length > 0) {
 					console.log("Inside doctable lenth");
 
@@ -826,14 +826,14 @@ sap.ui.define([
 
 						var selectedValue = oItem.oBindingContexts.docTableModel.sPath;
 						var tableValue = e.getSource().getModel("docTableModel").getProperty(selectedValue);
-					//	var serverMessage;
+						//	var serverMessage;
 						tableValue.Poddate = formatPodDate;
 						poddelValue = tableValue.Imminvreversalno;
 						poddelValue1 = tableValue.Revenueinvoice;
 						selectedArray.push(tableValue);
-						
-//logic to give highlighted color to table rows having Invoice reversal and revenue invoice not blank value
-					if (poddelValue !== "" || poddelValue1 !=="" ) {
+
+						//logic to give highlighted color to table rows having Invoice reversal and revenue invoice not blank value
+						if (poddelValue !== "" || poddelValue1 !== "") {
 							selectedPoddleArray.push(poddelValue);
 
 						}
@@ -862,19 +862,28 @@ sap.ui.define([
 									//that.getView().setModel(docTableModel, "docTableModel");
 									//that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
 									//	MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation"));
-                            
-                          var   serverMessage = oRet.headers["sap-message"];
-                         
-                             console.log("Message from server",serverMessage);
-                             this.onApplyFilter();
-                             sap.ui.core.BusyIndicator.hide();
-                       MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " + " and message from server is:" + serverMessage);
+
+									var serverMessage = oRet.headers["sap-message"];
+
+									console.log("Message from server", serverMessage);
+									this.onApplyFilter();
+									sap.ui.core.BusyIndicator.hide();
+									//  MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " + " and message from server is:" + serverMessage);
+									if (serverMessage === undefined) {
+										console.log("Inside if block for message toast");
+
+									} else {
+										MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
+											" and message from server is:" + serverMessage);
+
+									}
+
 									console.log("Inside success batch");
 
 								}.bind(this),
 								error: function (oError, resp) {
-										MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("errorCreation"));
-									 sap.ui.core.BusyIndicator.hide();
+									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("errorCreation"));
+									sap.ui.core.BusyIndicator.hide();
 									console.log("Inside error batch");
 
 								}.bind(this)
@@ -988,8 +997,8 @@ sap.ui.define([
 
 						//logic to highlight row color for processed documents	 
 						that.getView().byId("idProductsTable").getItems().forEach(function (item) {
-						//	if (item.getCells()[8].getText() === "Completely processed") {
-						if (item.getCells()[6].getText() !== "" || item.getCells()[7].getText() !== "" ) {
+							//	if (item.getCells()[8].getText() === "Completely processed") {
+							if (item.getCells()[6].getText() !== "" || item.getCells()[7].getText() !== "") {
 								item.addStyleClass("overdueRow");
 								item.setHighlight("Error");
 								item.getCells()[2].addStyleClass("overdueText");
