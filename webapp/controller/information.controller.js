@@ -853,46 +853,105 @@ sap.ui.define([
 
 						oModel.setDeferredGroups(["CreateDocumentBatch"]);
 						oModel.setUseBatch(true);
-						var aCreateDocPayload = selectedArray,
-							mParameters = {
-								batchGroupId: "CreateDocumentBatch",
-								success: function (oData, oRet) {
+						var aCreateDocPayload = selectedArray;
+							var that = this;
 
-									//  var docTableModel = new sap.ui.model.json.JSONModel(oData);
-									//that.getView().setModel(docTableModel, "docTableModel");
-									//that.getView().getModel("docTableModel").setProperty("/docTableSet", oData.results);
-									//	MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation"));
 
-									var serverMessage = oRet.headers["sap-message"];
+var mParameter = {
+				
+				urlParameters: null,
+				groupId:"CreateDocumentBatch",
+				success: function(oData, oRet) {
+
+					var serverMessage = oRet.headers["sap-message"];
 
 									console.log("Message from server", serverMessage);
-									this.onApplyFilter();
-									sap.ui.core.BusyIndicator.hide();
-									//  MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " + " and message from server is:" + serverMessage);
-									if (serverMessage === undefined) {
-										console.log("Inside if block for message toast");
 
-									} else {
-										MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
-											" and message from server is:" + serverMessage);
+					that.onApplyFilter();
 
-									}
 
-									console.log("Inside success batch");
+// if (serverMessage === undefined) {
+//  										console.log("Inside if block for message toast");
+//  									} else {
+// 									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
+// 										" and message from server is:" + serverMessage);
 
-								}.bind(this),
-								error: function (oError, resp) {
-									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("errorCreation"));
-									sap.ui.core.BusyIndicator.hide();
-									console.log("Inside error batch");
+// 								}
+					
+console.log("Inside mparameter success");
+sap.ui.core.BusyIndicator.hide();
+//This success handler will only be called if batch support is enabled. 
+//If multiple batch groups are submitted the handlers will be called for every batch group.
+			
+				},
+				error: function(oError) {
+					console.log("Inside mparameter error");
+					sap.ui.core.BusyIndicator.hide();
+				
+				}
+			};
 
-								}.bind(this)
-							};
+
+var singleentry = {
+				groupId: "CreateDocumentBatch",
+				urlParameters: null,
+				success: function(innerdata) {
+					console.log("Inside singleentry success");
+				//The success callback function for each record
+					
+				},
+				error: function(oError) {
+console.log("Inside singleentry error");
+				//The error callback function for each record
+			}
+
+};
+
+			/////////////////////////////////////////////////////////////////////
+
+
+// 							mParameters = {
+// 								batchGroupId: "CreateDocumentBatch",
+// 								success: function (oData, oRet) {
+
+								
+// 									var serverMessage = oRet.headers["sap-message"];
+
+// 									console.log("Message from server", serverMessage);
+// 									this.onApplyFilter();
+// 									sap.ui.core.BusyIndicator.hide();
+// 									//  MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " + " and message from server is:" + serverMessage);
+// 									if (serverMessage === undefined) {
+// 										console.log("Inside if block for message toast");
+
+// 									} else {
+// 										MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
+// 											" and message from server is:" + serverMessage);
+
+// 									}
+
+// 									console.log("Inside success batch");
+
+// 								}.bind(this),
+// 								error: function (oError, resp) {
+// 									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("errorCreation"));
+// 									sap.ui.core.BusyIndicator.hide();
+// 									console.log("Inside error batch");
+
+// 								}.bind(this)
+// 							};
+
+///////////////////////////////////////////////////////////
 
 						for (var m = 0; m < aCreateDocPayload.length; m++) {
-							oModel.create("/DeliverySet", aCreateDocPayload[m], mParameters);
+							//oModel.create("/DeliverySet", aCreateDocPayload[m], mParameters);
+
+							singleentry.properties= aCreateDocPayload[m];
+							singleentry.changeSetId="changeset "+m;
+							oModel.createEntry("/DeliverySet", singleentry);
+
 						}
-						oModel.submitChanges(mParameters);
+						oModel.submitChanges(mParameter);
 
 						/////////////////////////
 
