@@ -1,5 +1,5 @@
-var messageArray=[];
-var headerArray=[];
+var messageArray = [];
+var headerArray = [];
 
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
@@ -519,7 +519,7 @@ sap.ui.define([
 		//Code to hadle serach inside revenue invoice value help
 		handleSearchExtDev: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
-           var filter1 = new Filter("Vbeln", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter1 = new Filter("Vbeln", sap.ui.model.FilterOperator.EQ, sValue);
 			var filter2 = new sap.ui.model.Filter("Vstel", sap.ui.model.FilterOperator.EQ, sValue);
 			var filter3 = new sap.ui.model.Filter("Lfart", sap.ui.model.FilterOperator.EQ, sValue);
 			var filter4 = new Filter("Kunnr", sap.ui.model.FilterOperator.EQ, sValue);
@@ -529,7 +529,7 @@ sap.ui.define([
 			var filter8 = new sap.ui.model.Filter("Fkstk", sap.ui.model.FilterOperator.EQ, sValue);
 			var filter9 = new sap.ui.model.Filter("Pdstk", sap.ui.model.FilterOperator.EQ, sValue);
 
-			var oFilter = new Filter([filter1, filter2, filter3,filter4, filter5, filter6,filter7, filter8, filter9]);
+			var oFilter = new Filter([filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8, filter9]);
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter(oFilter, sap.ui.model.FilterType.Application);
 		},
@@ -805,7 +805,7 @@ sap.ui.define([
 		}, */
 
 		onClickGetDocs: function (e) {
-			messageArray=[];
+			messageArray = [];
 			var valid = true;
 			var podDateValue = this.getView().byId("podDateId");
 			var that = this;
@@ -863,135 +863,126 @@ sap.ui.define([
 						oModel.setDeferredGroups(["CreateDocumentBatch"]);
 						oModel.setUseBatch(true);
 						var aCreateDocPayload = selectedArray;
-							var that = this;
+						var that = this;
 
+						var mParameter = {
 
-var mParameter = {
-				
-				urlParameters: null,
-				groupId:"CreateDocumentBatch",
-				success: function(oData, oRet) {
+							urlParameters: null,
+							groupId: "CreateDocumentBatch",
+							success: function (oData, oRet) {
 
-					var serverMessage = oRet.headers["sap-message"];
+								var serverMessage = oRet.headers["sap-message"];
 
-									console.log("Message from server", serverMessage);
+								console.log("Message from server", serverMessage);
 
-					that.onApplyFilter();
+								that.onApplyFilter();
 
+								// if (serverMessage === undefined) {
+								//  										console.log("Inside if block for message toast");
+								//  									} else {
+								// 									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
+								// 										" and message from server is:" + serverMessage);
 
-// if (serverMessage === undefined) {
-//  										console.log("Inside if block for message toast");
-//  									} else {
-// 									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
-// 										" and message from server is:" + serverMessage);
+								// 								}
 
-// 								}
-					
-console.log("Inside mparameter success");
-sap.ui.core.BusyIndicator.hide();
-//This success handler will only be called if batch support is enabled. 
-//If multiple batch groups are submitted the handlers will be called for every batch group.
-			
-				},
-				error: function(oError) {
-					console.log("Inside mparameter error");
-					sap.ui.core.BusyIndicator.hide();
-				
-				}
-			};
+								console.log("Inside mparameter success");
+								sap.ui.core.BusyIndicator.hide();
+								//This success handler will only be called if batch support is enabled. 
+								//If multiple batch groups are submitted the handlers will be called for every batch group.
 
+							},
+							error: function (oError) {
+								console.log("Inside mparameter error");
+								sap.ui.core.BusyIndicator.hide();
 
-var singleentry = {
-				groupId: "CreateDocumentBatch",
-				urlParameters: null,
-				success: function(oData, oRet) {
-					console.log("Inside singleentry success");
-				//The success callback function for each record
+							}
+						};
 
-				var serverMessage = oRet.headers["sap-message"];
+						var singleentry = {
+							groupId: "CreateDocumentBatch",
+							urlParameters: null,
+							success: function (oData, oRet) {
+								console.log("Inside singleentry success");
+								//The success callback function for each record
 
-				if (serverMessage === undefined) {
-										console.log("Inside if block for message toast");
+								var serverMessage = oRet.headers["sap-message"];
 
- 									} else {
- 										
+								if (serverMessage === undefined) {
+									console.log("Inside if block for message toast");
 
-messageArray.push(JSON.parse(serverMessage).details);
+								} else {
 
- 					console.log("Inside else block for message toast",messageArray);					
+									messageArray.push(JSON.parse(serverMessage).details);
 
-									}
+									console.log("Inside else block for message toast", messageArray);
 
+								}
 
-				MessageToast.show("success");
-					
-				},
-				error: function(oError) {
-console.log("Inside singleentry error");
-MessageToast.show("Inside single entry success");
-				//The error callback function for each record
-			}
+								MessageToast.show("success");
 
-};
+							},
+							error: function (oError) {
+								console.log("Inside singleentry error");
+								MessageToast.show("Inside single entry success");
+								//The error callback function for each record
+							}
 
+						};
 
+						// var singleentry = {
+						// 				groupId: "CreateDocumentBatch",
+						// 				urlParameters: null,
+						// 				success: function(innerdata) {
+						// 					console.log("Inside singleentry success");
+						// 				//The success callback function for each record
 
-// var singleentry = {
-// 				groupId: "CreateDocumentBatch",
-// 				urlParameters: null,
-// 				success: function(innerdata) {
-// 					console.log("Inside singleentry success");
-// 				//The success callback function for each record
-					
-// 				},
-// 				error: function(oError) {
-// console.log("Inside singleentry error");
-// 				//The error callback function for each record
-// 			}
+						// 				},
+						// 				error: function(oError) {
+						// console.log("Inside singleentry error");
+						// 				//The error callback function for each record
+						// 			}
 
-// };
+						// };
 
-			/////////////////////////////////////////////////////////////////////
+						/////////////////////////////////////////////////////////////////////
 
+						// 							mParameters = {
+						// 								batchGroupId: "CreateDocumentBatch",
+						// 								success: function (oData, oRet) {
 
-// 							mParameters = {
-// 								batchGroupId: "CreateDocumentBatch",
-// 								success: function (oData, oRet) {
+						// 									var serverMessage = oRet.headers["sap-message"];
 
-								
-// 									var serverMessage = oRet.headers["sap-message"];
+						// 									console.log("Message from server", serverMessage);
+						// 									this.onApplyFilter();
+						// 									sap.ui.core.BusyIndicator.hide();
+						// 									//  MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " + " and message from server is:" + serverMessage);
+						// 									if (serverMessage === undefined) {
+						// 										console.log("Inside if block for message toast");
 
-// 									console.log("Message from server", serverMessage);
-// 									this.onApplyFilter();
-// 									sap.ui.core.BusyIndicator.hide();
-// 									//  MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " + " and message from server is:" + serverMessage);
-// 									if (serverMessage === undefined) {
-// 										console.log("Inside if block for message toast");
+						// 									} else {
+						// 										MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
+						// 											" and message from server is:" + serverMessage);
 
-// 									} else {
-// 										MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("successCreation") + " " +
-// 											" and message from server is:" + serverMessage);
+						// 									}
 
-// 									}
+						// 									console.log("Inside success batch");
 
-// 									console.log("Inside success batch");
+						// 								}.bind(this),
+						// 								error: function (oError, resp) {
+						// 									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("errorCreation"));
+						// 									sap.ui.core.BusyIndicator.hide();
+						// 									console.log("Inside error batch");
 
-// 								}.bind(this),
-// 								error: function (oError, resp) {
-// 									MessageToast.show(this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("errorCreation"));
-// 									sap.ui.core.BusyIndicator.hide();
-// 									console.log("Inside error batch");
+						// 								}.bind(this)
+						// 							};
 
-// 								}.bind(this)
-// 							};
-
-///////////////////////////////////////////////////////////
+						///////////////////////////////////////////////////////////
 
 						for (var m = 0; m < aCreateDocPayload.length; m++) {
 							//oModel.create("/DeliverySet", aCreateDocPayload[m], mParameters);
 
-							singleentry.properties= aCreateDocPayload[m];
-							singleentry.changeSetId="changeset "+m;
+							singleentry.properties = aCreateDocPayload[m];
+							singleentry.changeSetId = "changeset " + m;
 							oModel.createEntry("/DeliverySet", singleentry);
 
 						}
@@ -1148,44 +1139,38 @@ MessageToast.show("Inside single entry success");
 			});
 			return valid;
 		},
-		
+
 		onClickInformation: function (oEvent) {
-			
-			var messageArray2=[];
-for(var m=0;m<messageArray.length;m++){
 
-	messageArray2.push(messageArray[m][0]);
+			var messageArray2 = [];
+			for (var m = 0; m < messageArray.length; m++) {
 
+				messageArray2.push(messageArray[m][0]);
 
-}
+			}
 
-			
-				var messageModel = new sap.ui.model.json.JSONModel();
-					this.getView().setModel(messageModel, "messageModel");
-					this.getView().getModel("messageModel").setProperty("/messageSet", messageArray2);
-					sap.ui.core.BusyIndicator.hide();
-			
-				if (!this._oDialog) {
+			var messageModel = new sap.ui.model.json.JSONModel();
+			this.getView().setModel(messageModel, "messageModel");
+			this.getView().getModel("messageModel").setProperty("/messageSet", messageArray2);
+			sap.ui.core.BusyIndicator.hide();
+
+			if (!this._oDialog) {
 				//	this._oDialog = sap.ui.xmlfragment("com.bp.lubescustfinancial.fragments.OrderChangeHx", this);
 				this._oDialog = sap.ui.xmlfragment("com.sap.revenueRecognition.cogs_revenueRecognition.fragments.serverMessage", this);
-				}
+			}
 
-				this.getView().addDependent(this._oDialog);
-				this._oDialog.open();
-			
-			
-			
-			
-				//	console.log("Inside Success function Sold to",shipToModel);
-			
-			
-				console.log("Inside Click information for message toast",messageArray);
+			this.getView().addDependent(this._oDialog);
+			this._oDialog.open();
+
+			//	console.log("Inside Success function Sold to",shipToModel);
+
+			console.log("Inside Click information for message toast", messageArray);
 		},
 
-	handleClose: function (oEvent) {
+		handleClose: function (oEvent) {
 			/* This function closes the dialog box */
 			if (this._oDialog) {
-			
+
 				this._oDialog.close();
 			}
 		},
