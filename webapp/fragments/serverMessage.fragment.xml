@@ -11,7 +11,7 @@
 			growing="true" 
 			growingScrollToLoad="true" 
 			growingThreshold="5"
-		     	 items="{
+		     	items="{
 			path : 'messageModel>/messageSet'}"
 			noDataText="{i18n>noOrdChgText}">
 			<m:headerToolbar>
@@ -22,21 +22,56 @@
 				</m:OverflowToolbar>
 			</m:headerToolbar>
 			<columns>
-				
+					<Column ><Text text="Delivery#" wrapping="true"/></Column>
 				<Column ><Text text="Code" wrapping="true"/></Column>
 				<Column ><Text text="Message" wrapping="true"/></Column>
-				<Column ><Text text="Severity" wrapping="true"/></Column>
+					<Column ><Text text="Severity" wrapping="true"/></Column>
+					
+			
 			</columns>
 			
 				<items>
 			<ColumnListItem>
 				<cells>
+					
+					
 					<ObjectIdentifier
-						title="{}"
-						text="{messageModel>code}"/>
+						text="{messageModel>target}"
+					/>
+					<ObjectIdentifier
+						text="{messageModel>code}"
+					/>
+					
+					<ObjectIdentifier
+						text="{messageModel>message}"
+					/>
+					
+					<ObjectIdentifier
+						text="{messageModel>severity}"
+					/>
+					
+					
+					
+					<!--<ObjectIdentifier
+						title="{messageModel>target}"
+					/>
+					<Text
+						text="{messageModel>code}" />
+					<Text/>
+					
 					<Text
 						text="{messageModel>message}" />
 					<Text/>
+					
+						<Text
+						text="{messageModel>severity}" />
+					<Text/>
+					
+						<Text
+						text="{messageModel>message}" />
+					<Text/>-->
+				
+					
 					<!--	text="{docTableModel>Externaldelno}" />-->
 				
 						

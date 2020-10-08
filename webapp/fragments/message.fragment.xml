@@ -1,0 +1,49 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<TableSelectDialog  contentWidth ="85%"
+	multiSelect="false"
+		noDataText="{i18n>noDataText}"
+		
+	
+		cancel="handleClose"
+		
+		items="{
+			path : 'messageModel>/messageSet'}">
+		<ColumnListItem>
+			<cells>
+				<ObjectIdentifier 
+				title="{messageModel>target}" 
+				 />
+					<Text text="{messageModel>code}" />	
+					<Text text="{messageModel>message}" />	
+					<Text text="{messageModel>severity}" />	
+					
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="12em">
+				<header>
+					<Text text="Delivery#" />
+				</header>
+			</Column>
+				<Column width="12em">
+				<header>
+					<Text text="Code" />
+				</header>
+			</Column>
+				<Column width="12em">
+				<header>
+					<Text text="Message" />
+				</header>
+			</Column>
+			
+				<Column width="12em">
+				<header>
+					<Text text="Severity" />
+				</header>
+			</Column>
+			
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>
