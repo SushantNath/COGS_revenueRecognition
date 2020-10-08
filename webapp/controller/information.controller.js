@@ -1,3 +1,5 @@
+var messageArray=[];
+
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	'sap/m/MessageToast',
@@ -467,7 +469,7 @@ sap.ui.define([
 			// create value help dialog
 			if (!this._valueHelpDialogSoldTo) {
 				this._valueHelpDialogSoldTo = sap.ui.xmlfragment(
-					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.soldTo",
+					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.externalDelivery",
 					this
 				);
 
@@ -484,7 +486,7 @@ sap.ui.define([
 			var that = this;
 			var oView = this.getView();
 			sap.ui.core.BusyIndicator.show();
-			oModel.read("/DebiaSet", {
+			oModel.read("/ZotcshLikpSet", {
 
 				success: function (oData, Response) {
 
@@ -496,11 +498,11 @@ sap.ui.define([
 					// 	that.getView().setModel(immInvoiceModel, "immInvoiceData");
 					// 	immInvoiceModel.setProperty("/immInvoiceSet", oData.results);
 
-					var shipToModel = new sap.ui.model.json.JSONModel();
-					oView.setModel(shipToModel, "shipToModel");
-					oView.getModel("shipToModel").setProperty("/ShipToPartySet", oData.results);
+					var loadExtModel = new sap.ui.model.json.JSONModel();
+					oView.setModel(loadExtModel, "loadExtModel");
+					oView.getModel("loadExtModel").setProperty("/LoadExtSet", oData.results);
 					sap.ui.core.BusyIndicator.hide();
-					console.log("Inside Success function Sold to", oData.results);
+					console.log("Inside Success function load ext delivery", oData.results);
 				},
 
 				error: function (oData, Response, oError) {
@@ -516,12 +518,17 @@ sap.ui.define([
 		//Code to hadle serach inside revenue invoice value help
 		handleSearchExtDev: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
+           var filter1 = new Filter("Vbeln", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter2 = new sap.ui.model.Filter("Vstel", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter3 = new sap.ui.model.Filter("Lfart", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter4 = new Filter("Kunnr", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter5 = new sap.ui.model.Filter("Kunag", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter6 = new sap.ui.model.Filter("Route", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter7 = new Filter("WadatIst", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter8 = new sap.ui.model.Filter("Fkstk", sap.ui.model.FilterOperator.EQ, sValue);
+			var filter9 = new sap.ui.model.Filter("Pdstk", sap.ui.model.FilterOperator.EQ, sValue);
 
-			var filter1 = new Filter("Land1", sap.ui.model.FilterOperator.Contains, sValue);
-			var filter2 = new sap.ui.model.Filter("Mcod1", sap.ui.model.FilterOperator.Contains, sValue);
-			var filter3 = new sap.ui.model.Filter("Kunnr", sap.ui.model.FilterOperator.Contains, sValue);
-
-			var oFilter = new Filter([filter1, filter2, filter3]);
+			var oFilter = new Filter([filter1, filter2, filter3,filter4, filter5, filter6,filter7, filter8, filter9]);
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter(oFilter, sap.ui.model.FilterType.Application);
 		},
@@ -538,7 +545,7 @@ sap.ui.define([
 				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
 				aContexts.forEach(function (oItem) {
 
-					selectedExtDel = oItem.oModel.getProperty(oItem.sPath).Kunnr;
+					selectedExtDel = oItem.oModel.getProperty(oItem.sPath).Vbeln;
 
 				});
 
@@ -797,6 +804,7 @@ sap.ui.define([
 		}, */
 
 		onClickGetDocs: function (e) {
+			messageArray=[];
 			var valid = true;
 			var podDateValue = this.getView().byId("podDateId");
 			var that = this;
@@ -895,17 +903,52 @@ sap.ui.core.BusyIndicator.hide();
 var singleentry = {
 				groupId: "CreateDocumentBatch",
 				urlParameters: null,
-				success: function(innerdata) {
+				success: function(oData, oRet) {
 					console.log("Inside singleentry success");
 				//The success callback function for each record
+
+				var serverMessage = oRet.headers["sap-message"];
+
+				if (serverMessage === undefined) {
+										console.log("Inside if block for message toast");
+
+ 									} else {
+ 										
+
+messageArray.push(JSON.parse(serverMessage).details);
+
+ 					console.log("Inside else block for message toast",messageArray);					
+
+									}
+
+
+				MessageToast.show("success");
 					
 				},
 				error: function(oError) {
 console.log("Inside singleentry error");
+MessageToast.show("Inside single entry success");
 				//The error callback function for each record
 			}
 
 };
+
+
+
+// var singleentry = {
+// 				groupId: "CreateDocumentBatch",
+// 				urlParameters: null,
+// 				success: function(innerdata) {
+// 					console.log("Inside singleentry success");
+// 				//The success callback function for each record
+					
+// 				},
+// 				error: function(oError) {
+// console.log("Inside singleentry error");
+// 				//The error callback function for each record
+// 			}
+
+// };
 
 			/////////////////////////////////////////////////////////////////////
 
@@ -1103,6 +1146,47 @@ console.log("Inside singleentry error");
 				}
 			});
 			return valid;
+		},
+		
+		onClickInformation: function (oEvent) {
+			
+			var messageArray2=[];
+for(var m=0;m<messageArray.length;m++){
+
+	messageArray2.push(messageArray[m][0]);
+
+
+}
+
+			
+				var messageModel = new sap.ui.model.json.JSONModel();
+					this.getView().setModel(messageModel, "messageModel");
+					this.getView().getModel("messageModel").setProperty("/messageSet", messageArray2);
+					sap.ui.core.BusyIndicator.hide();
+			
+				if (!this._oDialog) {
+				//	this._oDialog = sap.ui.xmlfragment("com.bp.lubescustfinancial.fragments.OrderChangeHx", this);
+				this._oDialog = sap.ui.xmlfragment("com.sap.revenueRecognition.cogs_revenueRecognition.fragments.serverMessage", this);
+				}
+
+				this.getView().addDependent(this._oDialog);
+				this._oDialog.open();
+			
+			
+			
+			
+				//	console.log("Inside Success function Sold to",shipToModel);
+			
+			
+				console.log("Inside Click information for message toast",messageArray);
+		},
+
+	handleClose: function (oEvent) {
+			/* This function closes the dialog box */
+			if (this._oDialog) {
+			
+				this._oDialog.close();
+			}
 		},
 
 		onSelectionChange: function (oEvent) {

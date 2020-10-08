@@ -1,0 +1,50 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:m="sap.m"
+	xmlns:core="sap.ui.core" >
+	<Dialog
+		contentHeight="50%"
+		contentWidth="60%"
+		showHeader="false">
+		
+		<m:Table 
+			growing="true" 
+			growingScrollToLoad="true" 
+			growingThreshold="5"
+		     	 items="{
+			path : 'messageModel>/messageSet'}"
+			noDataText="{i18n>noOrdChgText}">
+			<m:headerToolbar>
+				<m:OverflowToolbar class="overFlowToolbarBackground sapUiLargeMarginTop">
+					<m:Title text="Server message"/>
+					<m:ToolbarSpacer/>
+					<m:Button icon="sap-icon://decline" press="handleClose"/>
+				</m:OverflowToolbar>
+			</m:headerToolbar>
+			<columns>
+				
+				<Column ><Text text="Code" wrapping="true"/></Column>
+				<Column ><Text text="Message" wrapping="true"/></Column>
+				<Column ><Text text="Severity" wrapping="true"/></Column>
+			</columns>
+			
+				<items>
+			<ColumnListItem>
+				<cells>
+					<ObjectIdentifier
+						title="{}"
+						text="{messageModel>code}"/>
+					<Text
+						text="{messageModel>message}" />
+					<Text/>
+					<!--	text="{docTableModel>Externaldelno}" />-->
+				
+						
+				</cells>
+			</ColumnListItem>
+		</items>
+			
+		</m:Table>
+		
+	</Dialog>
+</core:FragmentDefinition>

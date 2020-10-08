@@ -1,0 +1,36 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:m="sap.m"
+	xmlns:core="sap.ui.core" >
+	<Dialog
+		contentHeight="50%"
+		contentWidth="70%"
+		showHeader="false">
+		
+		<m:Table 
+			growing="true" 
+			growingScrollToLoad="true" 
+			growingThreshold="5"
+		     id="ordChgTbl"  
+			noDataText="{i18n>noOrdChgText}">
+			<m:headerToolbar>
+				<m:OverflowToolbar class="overFlowToolbarBackground sapUiLargeMarginTop">
+					<m:Title text="{i18n>orderChangeHxText}"/>
+					<m:ToolbarSpacer/>
+					<m:Button icon="sap-icon://decline" press="handleClose"/>
+				</m:OverflowToolbar>
+			</m:headerToolbar>
+			<columns>
+<!--				<Column id="ordChgNumCol" width="5%"><Text text="{i18n>rowNumSym}"/></Column>
+				<Column id="userIdCol"><Text text="{i18n>userIdText}" wrapping="true"/></Column>
+				<Column id="chgMadeCol"><Text text="{i18n>chgMadeText}" wrapping="true"/></Column>
+				<Column id="timestampCol"><Text text="{i18n>timestampText}" wrapping="true"/></Column>-->
+					<!--<Column  width="5%"><Text text="{i18n>rowNumSym}"/></Column>-->
+				<Column ><Text text="{i18n>userIdText}" wrapping="true"/></Column>
+				<Column ><Text text="{i18n>chgMadeText}" wrapping="true"/></Column>
+				<Column ><Text text="{i18n>timestampText}" wrapping="true"/></Column>
+			</columns>
+		</m:Table>
+		
+	</Dialog>
+</core:FragmentDefinition>
