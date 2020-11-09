@@ -13,7 +13,7 @@
 			growingThreshold="5"
 		     	items="{
 			path : 'messageModel>/messageSet'}"
-			noDataText="{i18n>noOrdChgText}">
+			noDataText="No Messages">
 			<m:headerToolbar>
 				<m:OverflowToolbar class="overFlowToolbarBackground sapUiLargeMarginTop">
 					<m:Title text="Server message"/>

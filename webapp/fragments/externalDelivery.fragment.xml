@@ -2,7 +2,7 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 	<TableSelectDialog id="extDeliveryTypeDialog" contentWidth ="85%"
-	multiSelect="false"
+	multiSelect="true"
 		noDataText="{i18n>noDataText}"
 		search= "handleSearchExtDev"
 		confirm="handleCloseExtDev"

@@ -342,11 +342,12 @@ sap.ui.define([
 		//Code to hadle serach inside revenue invoice value help
 		handleSearchShipTo: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
-
+            
 			var filter1 = new Filter("Land1", sap.ui.model.FilterOperator.Contains, sValue);
 			var filter2 = new sap.ui.model.Filter("Mcod1", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter3 = new Filter("Kunnr", sap.ui.model.FilterOperator.Contains, sValue);
 
-			var oFilter = new Filter([filter1, filter2]);
+			var oFilter = new Filter([filter1, filter2,filter3]);
 			var oBinding = oEvent.getSource().getBinding("items");
 			oBinding.filter(oFilter, sap.ui.model.FilterType.Application);
 		},
@@ -468,17 +469,17 @@ sap.ui.define([
 			this.loadExtDev();
 
 			// create value help dialog
-			if (!this._valueHelpDialogSoldTo) {
-				this._valueHelpDialogSoldTo = sap.ui.xmlfragment(
+			if (!this._valueHelpDialogOutDev) {
+				this._valueHelpDialogOutDev = sap.ui.xmlfragment(
 					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.externalDelivery",
 					this
 				);
 
-				this.getView().addDependent(this._valueHelpDialogSoldTo);
+				this.getView().addDependent(this._valueHelpDialogOutDev);
 			}
 
 			// open value help dialog filtered by the input value
-			this._valueHelpDialogSoldTo.open();
+			this._valueHelpDialogOutDev.open();
 
 		},
 
@@ -540,13 +541,24 @@ sap.ui.define([
 
 			var selectedExtDel;
 
-			var oMultiInputExtDel = this.byId("externalDeliveryId");
+			var oMultiInputExtDel = this.byId("outboundDelId");
+			oMultiInputExtDel.removeAllTokens();
 			var aContexts = oEvent.getParameter("selectedContexts");
 			if (aContexts && aContexts.length) {
 				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
 				aContexts.forEach(function (oItem) {
+					
+						oMultiInputExtDel.addToken(new Token({
+						key: oItem.oModel.getProperty(oItem.sPath).Vbeln,
+						text: oItem.oModel.getProperty(oItem.sPath).Vbeln,
+						customData: new sap.ui.core.CustomData({
+								key: oItem.oModel.getProperty(oItem.sPath).Vbeln
+							})
+							//ShipToExt
+							//	text: oItem.getModel("shipToModel").getProperty(oItem.getBindingContext("shipToModel").getPath()).IShipTo
+					}));
 
-					selectedExtDel = oItem.oModel.getProperty(oItem.sPath).Vbeln;
+				//	selectedExtDel = oItem.oModel.getProperty(oItem.sPath).Vbeln;
 
 				});
 
@@ -1028,7 +1040,20 @@ sap.ui.define([
 				var dateFrom = dateRange.getDateValue();
 				var dateTo = dateRange.getSecondDateValue();
 
-				var outboundDelvalue = this.getView().byId("outboundDelId").getValue();
+				var outboundDelvalue1 = this.getView().byId("outboundDelId").getValue();
+				
+					var searchArray = [];
+					var aFilterData = [];
+				var outboundDelvalue = this.getView().byId("outboundDelId").getTokens();
+
+				for (var k = 0; k < outboundDelvalue.length; k++) {
+					searchArray.push(this.getView().byId("outboundDelId").getTokens()[k].mProperties.key);
+					console.log("Selected tokens are",searchArray[k]);
+					var outboundDelFilter = new sap.ui.model.Filter("DeliveryNo", sap.ui.model.FilterOperator.EQ, searchArray[k]);
+					aFilterData.push(outboundDelFilter);
+			}
+				
+				
 				var shipToValue = this.getView().byId("shipToCustomerId").getValue();
 				var soldToValue = this.getView().byId("soldToInputId").getValue();
 				var extDelValue = this.getView().byId("externalDeliveryId").getValue();
@@ -1060,7 +1085,7 @@ sap.ui.define([
 				var revInvDate = this.getView().byId("invoiceDateInpuIdt").getDateValue();
 
 				//Filters
-				var outboundDelFilter = new sap.ui.model.Filter("DeliveryNo", sap.ui.model.FilterOperator.EQ, outboundDelvalue);
+			//	var outboundDelFilter = new sap.ui.model.Filter("DeliveryNo", sap.ui.model.FilterOperator.EQ, outboundDelvalue);
 				var shipToFilter = new sap.ui.model.Filter("Shiptoparty", sap.ui.model.FilterOperator.EQ, shipToValue);
 				var soldToFilter = new sap.ui.model.Filter("Soldtoparty", sap.ui.model.FilterOperator.EQ, soldToValue);
 				var extDelFilter = new sap.ui.model.Filter("Externaldelno", sap.ui.model.FilterOperator.EQ, extDelValue);
@@ -1079,6 +1104,9 @@ sap.ui.define([
 
 				var oModel = this.getView().getModel("revenueModel");
 				var that = this;
+
+aFilterData.push(shipToFilter, soldToFilter, extDelFilter, immInvFilter, revinvFilter, revInvDateFromFilter,
+						dateFromGIFilter, dateToGIFilter,);
 
 				//Call Backend for last 30 days of Invoices
 				oModel.read("/DeliverySet", {
@@ -1106,9 +1134,7 @@ sap.ui.define([
 						console.log("Inside extract butoon error");
 						sap.ui.core.BusyIndicator.hide();
 					},
-					filters: [outboundDelFilter, shipToFilter, soldToFilter, extDelFilter, immInvFilter, revinvFilter, revInvDateFromFilter,
-						dateFromGIFilter, dateToGIFilter
-					]
+					filters: aFilterData
 				});
 
 			}
