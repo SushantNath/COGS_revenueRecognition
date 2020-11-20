@@ -68,7 +68,7 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 								
 									<fb:FilterItem name="salesOrgFilter" label="{i18n>salesOrganisation}">
 								<fb:control>
-									<Input id="salesOrgInputId" placeholder="Enter revenue invoice type " showSuggestion="true" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueHelpRevInv">
+									<Input id="salesOrgInputId" placeholder="Enter sales organisation " showSuggestion="true" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueHelpSalesOrg">
 									<!--	<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>-->

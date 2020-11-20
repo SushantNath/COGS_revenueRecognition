@@ -229,31 +229,59 @@ sap.ui.define([
 		},
 
 		// Code to handle value help for revenue invoice
-		handleValueHelpRevInv: function (oEvent) {
+		handleValueHelpSalesOrg: function (oEvent) {
 
-			this.loadImmInvoice();
+			this.loadSalesOrg();
 			var oView = this.getView();
 			var that = this;
 
 			// create value help dialog revenue invoice
-			if (!this._valueHelpDialogRevInv) {
-				this._valueHelpDialogRevInv = sap.ui.xmlfragment(
-					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.revenueInvoice",
+			if (!this._valueHelpDialogSalesOrg) {
+				this._valueHelpDialogSalesOrg = sap.ui.xmlfragment(
+					this.getView().getId(), "com.sap.revenueRecognition.cogs_revenueRecognition.fragments.salesOrganisation",
 					this
 				);
 
-				this.getView().addDependent(this._valueHelpDialogRevInv);
+				this.getView().addDependent(this._valueHelpDialogSalesOrg);
 			}
 
 			// open value help dialog filtered by the input value
-			this._valueHelpDialogRevInv.open();
+			this._valueHelpDialogSalesOrg.open();
 
 		},
-		//Code to hadle serach inside revenue invoice value help
-		handleSearchRevInv: function (oEvent) {
+		
+			loadSalesOrg: function () {
+			var oModel = this.getView().getModel("revenueModel");
+			var that = this;
+			var oView = this.getView();
+			sap.ui.core.BusyIndicator.show();
+			oModel.read("/HTvkoSet", {
+
+				success: function (oData, Response) {
+
+				
+
+					var orderModel = new sap.ui.model.json.JSONModel();
+					oView.setModel(orderModel, "salesOrgModel");
+					oView.getModel("salesOrgModel").setProperty("/SalesOrgSet", oData.results);
+					sap.ui.core.BusyIndicator.hide();
+					console.log("Inside Success function sales org", oData.results);
+				},
+
+				error: function (oData, Response, oError) {
+					console.log("Inside sales org Error function");
+				}
+
+			});
+
+			console.log("Inside Filter options");
+
+		},
+		//Code to hadle serach inside Sales org value help
+		handleSalesOrgSearch: function (oEvent) {
 			var sValue = oEvent.getParameter("value");
 
-			var filter1 = new Filter("Fkart", sap.ui.model.FilterOperator.Contains, sValue);
+			var filter1 = new Filter("Vkorg", sap.ui.model.FilterOperator.Contains, sValue);
 			var filter2 = new sap.ui.model.Filter("Vtext", sap.ui.model.FilterOperator.Contains, sValue);
 
 			var oFilter = new Filter([filter1, filter2]);
@@ -263,23 +291,23 @@ sap.ui.define([
 
 		// Code to handle selection for immediate invoice value help
 
-		handleCloseRevInv: function (oEvent) {
+		_handleSalesOrgClose: function (oEvent) {
 
-			var selectedRevInvoice;
+			var selectedSalesOrg;
 
-			var oMultiInputRevInv = this.byId("invoiceTypeInputId");
+			var oMultiInputSalesOrg = this.byId("salesOrgInputId");
 			var aContexts = oEvent.getParameter("selectedContexts");
 			if (aContexts && aContexts.length) {
 				//	MessageToast.show("You have chosen " + aContexts.map(function(oContext) { return oContext.getObject().Name; }).join(", "));
 				aContexts.forEach(function (oItem) {
 
-					selectedRevInvoice = oItem.oModel.getProperty(oItem.sPath).Fkart;
+					selectedSalesOrg = oItem.oModel.getProperty(oItem.sPath).Vkorg;
 
 				});
 
 			}
 
-			oMultiInputRevInv.setValue(selectedRevInvoice);
+			oMultiInputSalesOrg.setValue(selectedSalesOrg);
 		},
 
 		/* Logic to fetch filter options for Ship To */
@@ -1096,7 +1124,7 @@ var outboundDelFilterSingle = new sap.ui.model.Filter("DeliveryNo", sap.ui.model
 				var shipToFilter = new sap.ui.model.Filter("Shiptoparty", sap.ui.model.FilterOperator.EQ, shipToValue);
 				var soldToFilter = new sap.ui.model.Filter("Soldtoparty", sap.ui.model.FilterOperator.EQ, soldToValue);
 				var extDelFilter = new sap.ui.model.Filter("Externaldelno", sap.ui.model.FilterOperator.EQ, extDelValue);
-
+              
 				var immInvFilter = new sap.ui.model.Filter("Imminvoicetype", sap.ui.model.FilterOperator.EQ, immInvValue);
 				var salesOrgFilter = new sap.ui.model.Filter("Salesorg", sap.ui.model.FilterOperator.EQ, salesOrgValue);
 				//	 var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
@@ -1112,7 +1140,7 @@ var outboundDelFilterSingle = new sap.ui.model.Filter("DeliveryNo", sap.ui.model
 				var oModel = this.getView().getModel("revenueModel");
 				var that = this;
 
-aFilterData.push(shipToFilter, soldToFilter, extDelFilter, immInvFilter, salesOrgFilter,dateFromGIFilter, dateToGIFilter);
+aFilterData.push(shipToFilter, soldToFilter, extDelFilter, immInvFilter,dateFromGIFilter, dateToGIFilter,salesOrgFilter);
 
 				//Call Backend for list of documents
 				oModel.read("/DeliverySet", {

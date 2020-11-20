@@ -1,0 +1,34 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<TableSelectDialog id="salesOrgDialog" contentWidth ="85%"
+	multiSelect="false"
+		noDataText="{i18n>noDataText}"
+		search= "handleSalesOrgSearch"
+		confirm="_handleSalesOrgClose"
+	
+		
+		items="{
+			path : 'salesOrgModel>/SalesOrgSet'}">
+		<ColumnListItem>
+			<cells>
+				<ObjectIdentifier 
+				title="{salesOrgModel>Vkorg}" 
+				 />
+					<Text text="{salesOrgModel>Vtext}" />	
+			</cells>
+		</ColumnListItem>
+		<columns>
+			<Column width="12em">
+				<header>
+					<Text text="{i18n>salesOrganisation}" />
+				</header>
+			</Column>
+				<Column width="12em">
+				<header>
+					<Text text="{i18n>text}" />
+				</header>
+			</Column>
+		</columns>
+	</TableSelectDialog>
+</core:FragmentDefinition>
