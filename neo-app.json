@@ -41,20 +41,13 @@
       },
       "description": "SAPUI5 Test Resources"
     },
-    {
-      "path": "/destinations/northwind",
-      "target": {
-        "type": "destination",
-        "name": "northwind"
-      },
-      "description": "Northwind OData Service"
-    },
+   
       {
-      "path": "DE4",
+      "path": "/sap/opu/odata",
       "target": {
         "type": "destination",
         "name": "DE4",
-        "entryPath": "DE4"
+        "entryPath": "/sap/opu/odata"
       },
       "description": "DE4"
     }

@@ -38,13 +38,13 @@ sap.ui.define([
 
 		},
 
-		onAfterRendering: function () {
+		// onAfterRendering: function () {
 
-			var currentDate = new Date();
-			var oToDate = this.getView().byId("invoiceDateInpuIdt");
-			oToDate.setDateValue(currentDate);
+		// 	var currentDate = new Date();
+		// 	var oToDate = this.getView().byId("invoiceDateInpuIdt");
+		// 	oToDate.setDateValue(currentDate);
 
-		},
+		// },
 
 		/* Logic to fetch filter options for Immediate invoice */
 
@@ -1052,13 +1052,20 @@ sap.ui.define([
 					var outboundDelFilter = new sap.ui.model.Filter("DeliveryNo", sap.ui.model.FilterOperator.EQ, searchArray[k]);
 					aFilterData.push(outboundDelFilter);
 			}
+				//logic to pass outbound delivery single value to get the data
+					if(outboundDelvalue.length === 0){
+
 				
+var outboundDelFilterSingle = new sap.ui.model.Filter("DeliveryNo", sap.ui.model.FilterOperator.EQ, outboundDelvalue1);
+					aFilterData.push(outboundDelFilterSingle);
+
+			}
 				
 				var shipToValue = this.getView().byId("shipToCustomerId").getValue();
 				var soldToValue = this.getView().byId("soldToInputId").getValue();
 				var extDelValue = this.getView().byId("externalDeliveryId").getValue();
 				var immInvValue = this.getView().byId("ImminvoiceTypeInputId").getValue();
-				var revinvValue = this.getView().byId("invoiceTypeInputId").getValue();
+				var salesOrgValue = this.getView().byId("salesOrgInputId").getValue();
 				var dateFromGI = dateRange.getDateValue();
 				var dateToGI = dateRange.getSecondDateValue();
 				if (dateFromGI === null) {
@@ -1082,7 +1089,7 @@ sap.ui.define([
 				// 		    	dateToGI ="9999-01-01T00:00:00";
 				// 		    }
 
-				var revInvDate = this.getView().byId("invoiceDateInpuIdt").getDateValue();
+			//	var revInvDate = this.getView().byId("invoiceDateInpuIdt").getDateValue();
 
 				//Filters
 			//	var outboundDelFilter = new sap.ui.model.Filter("DeliveryNo", sap.ui.model.FilterOperator.EQ, outboundDelvalue);
@@ -1091,10 +1098,10 @@ sap.ui.define([
 				var extDelFilter = new sap.ui.model.Filter("Externaldelno", sap.ui.model.FilterOperator.EQ, extDelValue);
 
 				var immInvFilter = new sap.ui.model.Filter("Imminvoicetype", sap.ui.model.FilterOperator.EQ, immInvValue);
-				var revinvFilter = new sap.ui.model.Filter("Revinvoicetype", sap.ui.model.FilterOperator.EQ, revinvValue);
+				var salesOrgFilter = new sap.ui.model.Filter("Salesorg", sap.ui.model.FilterOperator.EQ, salesOrgValue);
 				//	 var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
-				var revInvDateFromFilter = new sap.ui.model.Filter("Revinvdate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(
-					revInvDate));
+			//	var revInvDateFromFilter = new sap.ui.model.Filter("Revinvdate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(
+				//	revInvDate));
 				//	var custPoFilter = new sap.ui.model.Filter("CustPoNumber", sap.ui.model.FilterOperator.EQ, custPoNumber);
 				//	var revInvDateFilter = new sap.ui.model.Filter("DistRefNumber", sap.ui.model.FilterOperator.EQ, revInvDate);
 
@@ -1105,10 +1112,9 @@ sap.ui.define([
 				var oModel = this.getView().getModel("revenueModel");
 				var that = this;
 
-aFilterData.push(shipToFilter, soldToFilter, extDelFilter, immInvFilter, revinvFilter, revInvDateFromFilter,
-						dateFromGIFilter, dateToGIFilter,);
+aFilterData.push(shipToFilter, soldToFilter, extDelFilter, immInvFilter, salesOrgFilter,dateFromGIFilter, dateToGIFilter);
 
-				//Call Backend for last 30 days of Invoices
+				//Call Backend for list of documents
 				oModel.read("/DeliverySet", {
 
 					success: function (oData, Response) {

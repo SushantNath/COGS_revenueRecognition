@@ -2,26 +2,12 @@
 xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" 	xmlns:vm="sap.ui.comp.variants"  xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
 	xmlns:smartVariants="sap.ui.comp.smartvariants" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:footerbar="sap.ushell.ui.footerbar"
 		>
-	<f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}">
-			<!-- DynamicPage Title -->
-		<!--	<f:title>
-				<f:DynamicPageTitle>
-					<f:heading>
-						<vm:VariantManagement standardItemText="Filter options">
-						</vm:VariantManagement>
-					</f:heading>
-					<f:actions>
-						<ToolbarSpacer/>
-						
-					</f:actions>
-				</f:DynamicPageTitle>
-			</f:title> -->
-			<!-- DynamicPage Header -->
-			<f:header>
-				<f:DynamicPageHeader pinnable="true">
-				
-					<f:content>
-					<fb:FilterBar class="filterLabels" id="filterbar" reset="onReset" search="onApplyFilter" useToolbar="false" 
+	<App>
+		<pages>
+			<Page >
+				<content>
+					
+						<fb:FilterBar class="filterLabels" id="filterbar" reset="onReset" search="onApplyFilter" useToolbar="false" 
 					 showGoOnFB="true">
 						<fb:filterItems>
 							<!--  Filter Items-->
@@ -80,19 +66,19 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 							
 								<!-- revenue Invoice type Filter-->
 								
-									<fb:FilterItem name="invoiceTypeFilter" label="{i18n>invoiceType}">
+									<fb:FilterItem name="salesOrgFilter" label="{i18n>salesOrganisation}">
 								<fb:control>
-									<Input id="invoiceTypeInputId" placeholder="Enter revenue invoice type " showSuggestion="true" value="ZF20" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueHelpRevInv">
-										<customData>
+									<Input id="salesOrgInputId" placeholder="Enter revenue invoice type " showSuggestion="true" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueHelpRevInv">
+									<!--	<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
-                                </customData>
+                                </customData>-->
 									</Input>
 									</fb:control>
 							</fb:FilterItem>
 							
 							<!--Revenue invoice Date-->	
 							
-							<fb:FilterItem name="revenueInvoiceDateFilter" label="{i18n>revenueInvoiceDate}">
+						<!--	<fb:FilterItem name="revenueInvoiceDateFilter" label="{i18n>revenueInvoiceDate}">
 							<fb:control>
 									<DatePicker id="invoiceDateInpuIdt"  placeholder="Enter revenue invoice date ..." change="handleChange" class="sapUiSmallMarginBottom" value="{/Delivery/Revinvdate}" >
 								<customData>
@@ -100,24 +86,14 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
                                 </customData>
                                 </DatePicker>
 								</fb:control>
-							</fb:FilterItem>	
+							</fb:FilterItem> -->
 							
 						</fb:filterItems>
 						
 	
 					</fb:FilterBar>
 					
-				<!--	<smartFilterBar:SmartFilterBar smartVariant="idSmartVManagement" id="smartFilterBar" search="handleGOBtnPress" useToolbar="false" entitySet="invoiceData>/allFilterOptionsSet">
-						</smartFilterBar:SmartFilterBar>-->
-				</f:content>
-				
-				
-				</f:DynamicPageHeader>
-			</f:header>
-
-			<!-- DynamicPage Content -->
-			<f:content>
-			<Table id="idProductsTable"  mode="MultiSelect"
+					<Table id="idProductsTable"  mode="MultiSelect" 
 				 items="{
 			path : 'docTableModel>/docTableSet'}"
 		 selectionChange="onSelectionChange" itemPress="handleOperationSelect"  modelContextChange="onModelContextChange"
@@ -212,11 +188,12 @@ xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap
 			</ColumnListItem>
 		</items>
 	</Table>
-			</f:content>
-
-			<!-- DynamicPage Footer -->
+				
 		
-		</f:DynamicPage>
+				</content>
+			</Page>
+		</pages>
+	</App>
 	
 	
 </mvc:View>
