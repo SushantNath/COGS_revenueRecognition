@@ -1,199 +1,145 @@
 <mvc:View controllerName="com.sap.revenueRecognition.cogs_revenueRecognition.controller.information" xmlns:mvc="sap.ui.core.mvc"
-xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar" 	xmlns:vm="sap.ui.comp.variants"  xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
-	xmlns:smartVariants="sap.ui.comp.smartvariants" xmlns:smartTable="sap.ui.comp.smarttable" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" xmlns:footerbar="sap.ushell.ui.footerbar"
-		>
+	xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.f" xmlns="sap.m" xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:vm="sap.ui.comp.variants" xmlns:smartFilterBar="sap.ui.comp.smartfilterbar" xmlns:smartVariants="sap.ui.comp.smartvariants"
+	xmlns:smartTable="sap.ui.comp.smarttable" xmlns:customData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:footerbar="sap.ushell.ui.footerbar">
 	<App>
 		<pages>
 			<Page >
 				<content>
-					
-						<fb:FilterBar class="filterLabels" id="filterbar" reset="onReset" search="onApplyFilter" useToolbar="false" 
-					 showGoOnFB="true">
+					<fb:FilterBar class="filterLabels" id="filterbar" reset="onReset" search="onApplyFilter" useToolbar="false" showGoOnFB="true">
 						<fb:filterItems>
 							<!--  Filter Items-->
 							<fb:FilterItem label="{i18n>sapOutbound}" name="outboundFilter">
 								<fb:control>
-
-									<MultiInput id="outboundDelId" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueExtDev">
-									</MultiInput>
+									<MultiInput id="outboundDelId" placeholder="Enter Delivery" showSuggestion="true" showValueHelp="true" valueHelpOnly="false"
+										valueHelpRequest="handleValueExtDev"></MultiInput>
 								</fb:control>
 							</fb:FilterItem>
 							<!-- Goods issue date Filter -->
 							<fb:FilterItem label="{i18n>goodsIssuedate}" name="goodsIssueFilter">
 								<fb:control>
 									<!--<DatePicker id="goodsIssueId" placeholder="Enter goods issuedDate ..." change="handleChange" />-->
-										<DateRangeSelection 
-			id="DRS2"
-			change="handleChange"/>
+									<DateRangeSelection id="DRS2" change="handleChange"/>
 								</fb:control>
 							</fb:FilterItem>
 							<!--Ship to customer Filter-->
 							<fb:FilterItem name="shipToCustomerFilter" label="{i18n>shipToCustomer}">
 								<fb:control>
-										<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueShipTo"></Input>
-								<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
+									<Input id="shipToCustomerId" placeholder="Enter ship to customer " showSuggestion="true" showValueHelp="true" valueHelpOnly="false"
+										valueHelpRequest="handleValueShipTo"></Input>
+									<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
 							<!--Sold to Customer-->
 							<fb:FilterItem name="soldToCustomerFilter" label="{i18n>soldToCustomer}">
-							<fb:control>
-									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueSoldTo" ></Input>
-							<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
-								</fb:control>
-							</fb:FilterItem>
-							
-								<!--External delivery Filter-->
-							
-							<fb:FilterItem name="externaldeliveryFilter" label="{i18n>externalDelivery}">
 								<fb:control>
-									<Input id="externalDeliveryId" placeholder="Enter external delivery"  showSuggestion="true" showValueHelp="false"  valueHelpRequest="handleValueExtDev" ></Input>
+									<Input id="soldToInputId" placeholder="Enter sold to customer " showSuggestion="true" showValueHelp="true" valueHelpOnly="false"
+										valueHelpRequest="handleValueSoldTo"></Input>
 									<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
 								</fb:control>
 							</fb:FilterItem>
-							
-							<!-- Immediate Invoice type Filter-->
-								
-									<fb:FilterItem name="ImminvoiceTypeFilter" label="{i18n>immInvoicetype}"  >
+							<!--External delivery Filter-->
+							<fb:FilterItem name="externaldeliveryFilter" label="{i18n>externalDelivery}">
 								<fb:control>
-									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" value="ZF30" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueHelpImmInv">
-										<customData>
-                                    <core:CustomData key="required" value="true" writeToDom="true" />
-                                </customData>
-									</Input>
-									</fb:control>
+									<Input id="externalDeliveryId" placeholder="Enter external delivery" showSuggestion="true" showValueHelp="false"
+										valueHelpRequest="handleValueExtDev"></Input>
+									<!--<RangeSlider showAdvancedTooltip="true"  min="0" max="100" width="80%" class="sapUiMediumMarginBottom" />-->
+								</fb:control>
 							</fb:FilterItem>
-							
-							
-								<!-- revenue Invoice type Filter-->
-								
-									<fb:FilterItem name="salesOrgFilter" label="{i18n>salesOrganisation}">
+							<!-- Immediate Invoice type Filter-->
+							<fb:FilterItem name="ImminvoiceTypeFilter" label="{i18n>immInvoicetype}">
 								<fb:control>
-									<Input id="salesOrgInputId" placeholder="Enter sales organisation " showSuggestion="true" showValueHelp="true" valueHelpOnly="false" valueHelpRequest="handleValueHelpSalesOrg">
-									<!--	<customData>
+									<Input id="ImminvoiceTypeInputId" placeholder="Enter immediate invoice type " showSuggestion="true" value="ZF30" showValueHelp="true"
+										valueHelpOnly="false" valueHelpRequest="handleValueHelpImmInv">
+										<customData>
+											<core:CustomData key="required" value="true" writeToDom="true"/>
+										</customData>
+									</Input>
+								</fb:control>
+							</fb:FilterItem>
+							<!-- revenue Invoice type Filter-->
+							<fb:FilterItem name="salesOrgFilter" label="{i18n>salesOrganisation}">
+								<fb:control>
+									<Input id="salesOrgInputId" placeholder="Enter sales organisation " showSuggestion="true" showValueHelp="true" valueHelpOnly="false"
+										valueHelpRequest="handleValueHelpSalesOrg">
+										<!--	<customData>
                                     <core:CustomData key="required" value="true" writeToDom="true" />
                                 </customData>-->
 									</Input>
-									</fb:control>
-							</fb:FilterItem>
-							
-							<!--Revenue invoice Date-->	
-							
-						<!--	<fb:FilterItem name="revenueInvoiceDateFilter" label="{i18n>revenueInvoiceDate}">
-							<fb:control>
-									<DatePicker id="invoiceDateInpuIdt"  placeholder="Enter revenue invoice date ..." change="handleChange" class="sapUiSmallMarginBottom" value="{/Delivery/Revinvdate}" >
-								<customData>
-                                    <core:CustomData key="required" value="true" writeToDom="true" />
-                                </customData>
-                                </DatePicker>
 								</fb:control>
-							</fb:FilterItem> -->
-							
+							</fb:FilterItem>
+							<!--POS status-->
+							<fb:FilterItem name="podStatusFilter" label="{i18n>podStatus}">
+								<fb:control>
+									<Select id="podStatusID" change="onClearingStatusChange">
+										<core:Item key="N" text="{i18n>NotConfirmed}"/>
+										<core:Item key="C" text="{i18n>Confirmed}"/>
+									</Select>
+								</fb:control>
+							</fb:FilterItem>
 						</fb:filterItems>
-						
-	
 					</fb:FilterBar>
-					
-					<Table id="idProductsTable"  mode="MultiSelect" 
-				 items="{
-			path : 'docTableModel>/docTableSet'}"
-		 selectionChange="onSelectionChange" itemPress="handleOperationSelect"  modelContextChange="onModelContextChange"
-		>
-	
-		<headerToolbar>
-			<Toolbar>
-			
-					<Title   text="{i18n>documents}"/>
-					<ToolbarSpacer/>
-					<Label text="{i18n>podDate}"/>
-					<DatePicker width = "50%" 
-			id="podDateId"
-			placeholder="Enter POD Date ..."
-			change="handlePodChange"
-		>
-				</DatePicker>
-			<Button
-								text="{i18n>extractDocuments}"
-								type="Accept" press="onClickGetDocs"/>
-								
-									<Button
-								
-								icon="sap-icon://message-popup" press="onClickInformation"/>
-			</Toolbar>
-		</headerToolbar>
-	
-		<columns>
-			<Column
-				>
-				<Text text="{i18n>salesOrg}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>deliveryNum}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>externDevNum}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>soldToId}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>shipToId}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>immediateInvNum}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>immediateInvReversal}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>revenueInvoice}" />
-			</Column>
-			<Column
-				>
-				<Text text="{i18n>podStatus}" />
-			</Column>
-		</columns>
-		<items>
-			<ColumnListItem>
-				<cells>
-					<ObjectIdentifier
-						title="{}"
-						text="{docTableModel>Salesorg}"/>
-					<Text
-						text="{docTableModel>DeliveryNo}" />
-					<Text
-						text="{docTableModel>Externaldelno}" />
-					<Text
-						text="{docTableModel>Soldtoparty}" />
-					<Text
-						text="{docTableModel>Shiptoparty}" />
-							<Text
-						text="{docTableModel>Imminvoiceno}" />
-							<Text
-						text="{docTableModel>Imminvreversalno}" />
-							<Text
-						text="{docTableModel>Revenueinvoice}" />
-<Text
-						text= "{=${docTableModel>Poddelstat}=== 'A' ? 'Not yet processed'  :  ${docTableModel>Poddelstat}=== 'B' ? 'Partially processed' : 'Completely processed' }" />
-						
-					
-						
-				</cells>
-			</ColumnListItem>
-		</items>
-	</Table>
-				
-		
+					<Table id="idProductsTable" mode="MultiSelect" items="{ path : 'docTableModel>/docTableSet'}" selectionChange="onSelectionChange"
+						itemPress="handleOperationSelect" modelContextChange="onModelContextChange">
+						<headerToolbar>
+							<Toolbar>
+								<Title text="{i18n>documents}"/>
+								<ToolbarSpacer/>
+								<Label text="{i18n>podDate}"/>
+								<DatePicker width="50%" id="podDateId" placeholder="Enter POD Date ..." change="handlePodChange"></DatePicker>
+								<Button text="{i18n>extractDocuments}" type="Accept" press="onClickGetDocs"/>
+								<Button icon="sap-icon://message-popup" press="onClickInformation"/>
+							</Toolbar>
+						</headerToolbar>
+						<columns>
+							<Column >
+								<Text text="{i18n>salesOrg}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>deliveryNum}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>externDevNum}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>soldToId}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>shipToId}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>immediateInvNum}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>immediateInvReversal}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>revenueInvoice}"/>
+							</Column>
+							<Column >
+								<Text text="{i18n>podStatus}"/>
+							</Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<ObjectIdentifier title="{}" text="{docTableModel>Salesorg}"/>
+									<Text text="{docTableModel>DeliveryNo}"/>
+									<Text text="{docTableModel>Externaldelno}"/>
+									<Text text="{docTableModel>Soldtoparty}"/>
+									<Text text="{docTableModel>Shiptoparty}"/>
+									<Text text="{docTableModel>Imminvoiceno}"/>
+									<Text text="{docTableModel>Imminvreversalno}"/>
+									<Text text="{docTableModel>Revenueinvoice}"/>
+									<Text
+										text="{=${docTableModel>Poddelstat}=== 'A' ? 'Not yet processed' : ${docTableModel>Poddelstat}=== 'B' ? 'Partially processed' : 'Completely processed' }"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
 				</content>
 			</Page>
 		</pages>
 	</App>
-	
-	
 </mvc:View>
