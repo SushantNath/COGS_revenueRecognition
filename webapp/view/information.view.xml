@@ -69,11 +69,11 @@
 									</Input>
 								</fb:control>
 							</fb:FilterItem>
-							<!--POS status-->
+							<!--POD status-->
 							<fb:FilterItem name="podStatusFilter" label="{i18n>podStatus}">
 								<fb:control>
 									<Select id="podStatusID" change="onClearingStatusChange">
-										<core:Item key="N" text="{i18n>NotConfirmed}"/>
+										<core:Item key="A" text="{i18n>NotConfirmed}"/>
 										<core:Item key="C" text="{i18n>Confirmed}"/>
 									</Select>
 								</fb:control>

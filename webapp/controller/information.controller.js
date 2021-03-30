@@ -1095,6 +1095,7 @@ var outboundDelFilterSingle = new sap.ui.model.Filter("DeliveryNo", sap.ui.model
 				var extDelValue = this.getView().byId("externalDeliveryId").getValue();
 				var immInvValue = this.getView().byId("ImminvoiceTypeInputId").getValue();
 				var salesOrgValue = this.getView().byId("salesOrgInputId").getValue();
+				var podStatusValue = this.getView().byId("podStatusID").getSelectedItem().mProperties.key;
 				var dateFromGI = dateRange.getDateValue();
 				var dateToGI = dateRange.getSecondDateValue();
 				if (dateFromGI === null) {
@@ -1128,6 +1129,7 @@ var outboundDelFilterSingle = new sap.ui.model.Filter("DeliveryNo", sap.ui.model
               
 				var immInvFilter = new sap.ui.model.Filter("Imminvoicetype", sap.ui.model.FilterOperator.EQ, immInvValue);
 				var salesOrgFilter = new sap.ui.model.Filter("Salesorg", sap.ui.model.FilterOperator.EQ, salesOrgValue);
+				var podStatusFilter = new sap.ui.model.Filter("Poddelstat", sap.ui.model.FilterOperator.EQ, podStatusValue);
 				//	 var dateFromGIFilter = new sap.ui.model.Filter("Goodsissuedate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(dateFromGI) + "T00:00:00");
 			//	var revInvDateFromFilter = new sap.ui.model.Filter("Revinvdate", sap.ui.model.FilterOperator.EQ, Formatter.formatterDateAllOrders(
 				//	revInvDate));
@@ -1141,7 +1143,7 @@ var outboundDelFilterSingle = new sap.ui.model.Filter("DeliveryNo", sap.ui.model
 				var oModel = this.getView().getModel("revenueModel");
 				var that = this;
 
-aFilterData.push(shipToFilter, soldToFilter, extDelFilter, immInvFilter,dateFromGIFilter, dateToGIFilter,salesOrgFilter);
+aFilterData.push(shipToFilter, soldToFilter, extDelFilter, immInvFilter,dateFromGIFilter, dateToGIFilter,salesOrgFilter,podStatusFilter);
 
 				//Call Backend for list of documents
 				oModel.read("/DeliverySet", {
